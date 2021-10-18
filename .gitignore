@@ -1,32 +1,16 @@
-# Prerequisites
-*.d
+# ignore all files in the Listings/ directory
+Listings/
+DebugConfig/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# no .a or .o files
+*.[aod]
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# no files
+*.crf
+*.htm
+*.axf
+*.dep
+*.lnp
+*.sct
+*.Bak
+*.poter
