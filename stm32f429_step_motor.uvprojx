@@ -413,16 +413,6 @@
               <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_paramlist.cpp</FilePath>
             </File>
             <File>
-              <FileName>pp_stepper_motor_2clock_driver.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_2clock_driver.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>pp_stepper_motor_driver_decorator.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_driver_decorator.cpp</FilePath>
-            </File>
-            <File>
               <FileName>stm32xx.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\PP_library\stm32xx.h</FilePath>
@@ -461,6 +451,31 @@
               <FileName>vRealizationFunctionsThread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\threads\vRealizationFunctionsThread.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>stepper_motor</GroupName>
+          <Files>
+            <File>
+              <FileName>pp_stepper_motor_2clock_driver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_2clock_driver.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_stepper_motor_driver_decorator.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_driver_decorator.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_control_coordinate_decorator.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_control_coordinate_decorator.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_control_2clock_signals_decorator.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_control_2clock_signals_decorator.cpp</FilePath>
             </File>
           </Files>
         </Group>

@@ -14,7 +14,9 @@
 #include "pp_param.h"
 #include "pp_paramlist.h"
 #include "pp_stepper_motor_driver.h"
-#include "pp_stepper_motor_driver.h"
+#include "pp_control_coordinate_decorator.h"
+#include "pp_stepper_motor_2clock_driver.h"
+#include "pp_control_2clock_signals_decorator.h"
 
 #define COORD_PRECISION 1250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
@@ -35,14 +37,11 @@ osMessageQueueId_t qToDoMark;
 osMessageQueueId_t qToDoMarkWorkParam;
 
 
-
-defOParamList *auxCoord;
 defOParamList *phyCoord;
 defOParamList *baseCoord;
-//vector<defOParamList*> gBaseList;
 
 
-//vector<defOMotorDriver*> motors;
+vector<defOStepperMotorDriver*> motors;
 
 map<string, string> *strings;
 
@@ -56,23 +55,16 @@ int main (void) {
 	USART_Config();
 	
 	
+	phyCoord=new defOParamList();
+	phyCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	phyCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+
+	baseCoord=new defOParamList();
+	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+
+	motors.push_back(new defOControl2ClockSignalsDecorator(new defOControlCoordinateDecorator( new defOStepperMotor2clockDriver(MICRO_STEP), phyCoord->getParam('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
 	
-	
-//	phyCoord=new defOParamList();
-//	phyCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", PHY_COORD_X_BKP, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-//	phyCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", PHY_COORD_Y_BKP, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-
-//	baseCoord=new defOParamList();
-//	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", PHY_COORD_X_BKP, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-//	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", PHY_COORD_Y_BKP, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-
-//	motors.push_back(new defOPlatformParallelMotorDriver(phyCoord->getParamPair('Y'), baseCoord->getParamPair('Y'), GPIOB, new array<int, 2>{Pin15, Pin14}, GPIOE, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}, MICRO_STEP, 0));
-//	motors.push_back(new defOPlatformParallelMotorDriver(phyCoord->getParamPair('X'), baseCoord->getParamPair('X'), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}, MICRO_STEP, 0));
-
-//    for(int i=0; i<5; i++){
-//        gBaseList.push_back(phyCoord->clone());
-//    }
-
 
   osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
