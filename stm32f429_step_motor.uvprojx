@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F4xx</Define>
+              <Define>STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>.\strings;.\threads;.</IncludePath>
+              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -393,24 +393,9 @@
               <FilePath>.\def_pins.h</FilePath>
             </File>
             <File>
-              <FileName>keyboard.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\keyboard.cpp</FilePath>
-            </File>
-            <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\main.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>input_signals_analysis.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\input_signals_analysis.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>button_marks.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\button_marks.cpp</FilePath>
             </File>
             <File>
               <FileName>config.cpp</FileName>
@@ -418,59 +403,34 @@
               <FilePath>.\config.cpp</FilePath>
             </File>
             <File>
-              <FileName>clock.cpp</FileName>
+              <FileName>pp_param.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\clock.cpp</FilePath>
+              <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_param.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_paramlist.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_paramlist.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_stepper_motor_2clock_driver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_2clock_driver.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_stepper_motor_driver_decorator.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_driver_decorator.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>stm32xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\stm32xx.h</FilePath>
             </File>
             <File>
               <FileName>pstring.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\pstring.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>param.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\param.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>paramlist.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\paramlist.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>backup.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\backup.h</FilePath>
-            </File>
-            <File>
-              <FileName>aut_work_param_WEDM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\aut_work_param_WEDM.h</FilePath>
-            </File>
-            <File>
-              <FileName>motor_driver.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\motor_driver.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>motor_parallel_driver.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\motor_parallel_driver.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>platform_motor_parallel_driver.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\platform_motor_parallel_driver.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>drive_WEDM.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\drive_WEDM.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>drive_machine.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\drive_machine.cpp</FilePath>
+              <FilePath>..\..\..\PP_library\PP_String_Library\pstring.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -493,19 +453,9 @@
               <FilePath>.\threads\vCheckInputSignalsThread.cpp</FilePath>
             </File>
             <File>
-              <FileName>vKeyboardThread.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\threads\vKeyboardThread.cpp</FilePath>
-            </File>
-            <File>
               <FileName>vSecondThread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\threads\vSecondThread.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>vWorkParamChangeThread.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\threads\vWorkParamChangeThread.cpp</FilePath>
             </File>
             <File>
               <FileName>vRealizationFunctionsThread.cpp</FileName>

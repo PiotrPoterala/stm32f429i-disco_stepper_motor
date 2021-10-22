@@ -1,11 +1,7 @@
 #ifndef _CONFIG_H
 	#define _CONFIG_H
 
-	#if defined(STM32L4R5xx)
-		#include "stm32l4xx.h"
-	#else
-		#include "stm32f4xx.h"
-	#endif
+	#include "stm32xx.h"
 
 	#define NVIC_PriGroup_0         ((uint32_t)0x7) /*!< 0 bits for pre-emption priority
 																															4 bits for subpriority */

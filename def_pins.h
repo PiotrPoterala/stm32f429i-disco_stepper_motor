@@ -1,5 +1,5 @@
-#ifndef _DEF_PINOW_H
-	#define _DEF_PINOW_H
+#ifndef _DEF_PINS_H
+	#define _DEF_PINS_H
 
 #if defined(STM32L4R5xx)
 	#include "stm32l4xx.h"
