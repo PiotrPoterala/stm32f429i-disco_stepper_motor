@@ -28,13 +28,15 @@
 
 
 extern int Init_vSecondThread (osPriority_t priority);
-extern int Init_KeyboardThread (osPriority_t priority); 
 extern int Init_vCheckInputSignalsThread (osPriority_t priority); 
-extern int Init_vWorkParamChangeThread  (osPriority_t priority);
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
+extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority); 
 
 osMessageQueueId_t qToDoMark;   
 osMessageQueueId_t qToDoMarkWorkParam;
+
+osMessageQueueId_t qComunicationUartSend; 
+osMessageQueueId_t qComunicationUartReceive; 
 
 
 defOParamList *phyCoord;
@@ -71,10 +73,13 @@ int main (void) {
 	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
 	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
+	qComunicationUartSend = osMessageQueueNew(64, sizeof(char), NULL);
+	qComunicationUartReceive = osMessageQueueNew(64, sizeof(char), NULL);	
+	
   Init_vSecondThread(osPriorityLow);   
 	Init_vCheckInputSignalsThread (osPriorityHigh);
 	Init_vRealizationFunctionThread(osPriorityNormal);
-	
+	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityNormal); 
 	
   osKernelStart();                      // Start thread execution
   for (;;) {}

@@ -422,6 +422,11 @@
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_String_Library\pstring.cpp</FilePath>
             </File>
+            <File>
+              <FileName>stm32f_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\stm32f_it.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -451,6 +456,11 @@
               <FileName>vRealizationFunctionsThread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\threads\vRealizationFunctionsThread.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>vReceiveAndInterpretDataFromComUartThread.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\threads\vReceiveAndInterpretDataFromComUartThread.cpp</FilePath>
             </File>
           </Files>
         </Group>
