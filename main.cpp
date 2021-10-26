@@ -18,6 +18,8 @@
 #include "pp_stepper_motor_2clock_driver.h"
 #include "pp_control_2clock_signals_decorator.h"
 
+#include "pp_rtx5_uart_queue.h"
+
 #define COORD_PRECISION 1250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
 
@@ -35,12 +37,12 @@ extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority
 osMessageQueueId_t qToDoMark;   
 osMessageQueueId_t qToDoMarkWorkParam;
 
-osMessageQueueId_t qComunicationUartSend; 
-osMessageQueueId_t qComunicationUartReceive; 
 
 
 defOParamList *phyCoord;
 defOParamList *baseCoord;
+
+defOUartQueues* uartCommunicationQueues;
 
 
 vector<defOStepperMotorDriver*> motors;
@@ -73,8 +75,8 @@ int main (void) {
 	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
 	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
-	qComunicationUartSend = osMessageQueueNew(64, sizeof(char), NULL);
-	qComunicationUartReceive = osMessageQueueNew(64, sizeof(char), NULL);	
+	
+	uartCommunicationQueues= new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL));
 	
   Init_vSecondThread(osPriorityLow);   
 	Init_vCheckInputSignalsThread (osPriorityHigh);

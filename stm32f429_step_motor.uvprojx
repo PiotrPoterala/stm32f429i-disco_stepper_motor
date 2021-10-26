@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library</IncludePath>
+              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -423,9 +423,14 @@
               <FilePath>..\..\..\PP_library\PP_String_Library\pstring.cpp</FilePath>
             </File>
             <File>
-              <FileName>stm32f_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\stm32f_it.c</FilePath>
+              <FileName>pp_rtx5_uart_queue.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_uart_queue.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f_it.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\stm32f_it.cpp</FilePath>
             </File>
           </Files>
         </Group>

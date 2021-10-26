@@ -2,11 +2,11 @@
 
 #include <string>
 
+#include "pp_rtos_uart_queue.h"
+
+extern defOUartQueues* uartCommunicationQueues;
+
 using namespace std;
-
-extern osMessageQueueId_t qComunicationUartSend; 
-extern osMessageQueueId_t qComunicationUartReceive; 
-
 
 /*----------------------------------------------------------------------------
  *      Thread 1 'Thread_Name': Sample thread
@@ -25,25 +25,20 @@ int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority) {
 }
 
 void vReceiveAndInterpretDataFromComUartThread(void *argument) {
-	char receiveChar;
-	string receiveString;
+
 	
   while (1) {
 		
-			if(osMessageQueueGet(qComunicationUartReceive, &receiveChar, NULL, osWaitForever) == osOK){
-
-				receiveString+=receiveChar; 
-
-				if(receiveChar=='\n'){
+			uartCommunicationQueues->getStringFromReceiveQueue();
+		
+			if(uartCommunicationQueues->isReceiveString()){
 
 //					oComunicationWithPP16ster.interpretATcommand(&oComunicationWithPP16ster.transmitParam, &oAutWork, &oTools.tools.itemsParam, &oTankErrors, &oPowerErrors, &oEquipmentDetect,
 //																											qUartPP16STERsend, qToDoMarkTools, xGenerSend);
-					receiveString.clear();
+					uartCommunicationQueues->clearReceiveString();
 
-				}else{
-					if(receiveString.size()>64)receiveString.clear();
-				}
+			}
 
-			}                                        // suspend thread
+			           
   }
 }
