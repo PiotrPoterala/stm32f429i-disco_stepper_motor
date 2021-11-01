@@ -423,24 +423,19 @@
               <FilePath>..\..\..\PP_library\PP_String_Library\pstring.cpp</FilePath>
             </File>
             <File>
-              <FileName>pp_rtx5_uart_queue.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_uart_queue.cpp</FilePath>
-            </File>
-            <File>
               <FileName>stm32f_it.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\stm32f_it.cpp</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>strings</GroupName>
-          <Files>
             <File>
-              <FileName>strings-pl.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\strings\strings-pl.h</FilePath>
+              <FileName>pp_drive_algorithms.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\pp_drive_algorithms.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_drive_algorithms.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\pp_rtx5_drive_algorithms.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -491,6 +486,26 @@
               <FileName>pp_control_2clock_signals_decorator.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_control_2clock_signals_decorator.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_motorslist.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_motorslist.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>uart</GroupName>
+          <Files>
+            <File>
+              <FileName>pp_rtos_uart_queue.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_uart_queue.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_uart_queue.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_uart_queue.cpp</FilePath>
             </File>
           </Files>
         </Group>

@@ -13,6 +13,7 @@
 #include "def_pins.h"
 #include "pp_param.h"
 #include "pp_paramlist.h"
+#include "pp_motorslist.h"
 #include "pp_stepper_motor_driver.h"
 #include "pp_control_coordinate_decorator.h"
 #include "pp_stepper_motor_2clock_driver.h"
@@ -45,7 +46,7 @@ defOParamList *baseCoord;
 defOUartQueues* uartCommunicationQueues;
 
 
-vector<defOStepperMotorDriver*> motors;
+defOMotorsList motors;
 
 map<string, string> *strings;
 
@@ -67,7 +68,7 @@ int main (void) {
 	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 
-	motors.push_back(new defOControl2ClockSignalsDecorator(new defOControlCoordinateDecorator( new defOStepperMotor2clockDriver(MICRO_STEP), phyCoord->getParam('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
+	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator(new defOControlCoordinateDecorator( new defOStepperMotor2clockDriver(MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
 	
 
   osKernelInitialize();                 // Initialize CMSIS-RTOS
