@@ -201,13 +201,22 @@
 			int driveStatus;
 		
 		
-			defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
+		defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
 		
 		
 			void setParToDriveForValue(map<char, int> values);
 			void setParToDriveToBaseCoordinates(map<char, int> values);		
 		
-			int drive(void)=0;
+			virtual int drive(void)=0;
+		
+		
+			static unsigned int getFrequencykResponsibleForDriveSpeed(unsigned int nrOfStepsFromStart, unsigned int nrOfStepsToEnd, int accelerationMMperSEC2, int velocityUMperSEC, unsigned int stepPM);
+			static unsigned int getClockDividerResponsibleForDriveSpeed(unsigned int nrOfStepsFromStart, unsigned int nrOfStepsToEnd, int accelerationMMperSEC2, int velocityUMperSEC, unsigned int frequencyOfClock, unsigned int stepPM);
+			static unsigned int getFrequencyOfDriveInUniformMovement(int velocityUMperSEC, unsigned int stepPM);
+			static unsigned int getClockDividerInUniformMovement(int velocityUMperSEC, unsigned int frequencyOfClock, unsigned int stepPM);
+			static unsigned int getClockDividerInUniformMovementWithSecurity(int velocityUMperSEC, int defValue, unsigned int frequencyOfClock, unsigned int stepPM);
+			static unsigned int calculateAccelerateNumberOfSteps(int accelerationMMperSEC2, int velocityUMperSEC, unsigned int stepPM);
+		
 		
 
 	};

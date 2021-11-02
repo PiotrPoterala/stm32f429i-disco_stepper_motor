@@ -20,8 +20,9 @@
 #include "pp_control_2clock_signals_decorator.h"
 
 #include "pp_rtx5_uart_queue.h"
+#include "pp_rtx5_drive_algorithms.h"
 
-#define COORD_PRECISION 1250				//w rzeczywistości 0,001250
+#define COORD_PRECISION_MM 0.001250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
 
 #define MIN_PHY_COORD_MM		0
@@ -29,6 +30,8 @@
 #define MAX_PHY_COORD_MM		999
 #define MAX_BASE_COORD_MM		999
 
+#define VELOCITY_PRECISION_uM_PER_SEC 1				
+#define VELOCITY_UNIT 1
 
 extern int Init_vSecondThread (osPriority_t priority);
 extern int Init_vCheckInputSignalsThread (osPriority_t priority); 
@@ -47,6 +50,7 @@ defOUartQueues* uartCommunicationQueues;
 
 
 defOMotorsList motors;
+defODriveAlgorithms* motorsAlgorithms;
 
 map<string, string> *strings;
 
@@ -61,15 +65,18 @@ int main (void) {
 	
 	
 	phyCoord=new defOParamList();
-	phyCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-	phyCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	phyCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	phyCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 
 	baseCoord=new defOParamList();
-	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 100*pow(10.0, COORD_UNIT), COORD_PRECISION, COORD_UNIT, MIN_PHY_COORD_MM, MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 
-	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator(new defOControlCoordinateDecorator( new defOStepperMotor2clockDriver(MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
+	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
+																(new defOControlCoordinateDecorator
+																	(new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
 	
+	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
   osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
