@@ -442,6 +442,11 @@
               <FileType>8</FileType>
               <FilePath>.\pp_rtx5_at_commands_interpreter.cpp</FilePath>
             </File>
+            <File>
+              <FileName>at_tags.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\at_tags.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

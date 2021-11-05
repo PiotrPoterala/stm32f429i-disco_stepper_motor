@@ -1,6 +1,6 @@
 #include "pp_rtx5_at_commands_interpreter.h"
 #include "pstring.h"
-
+#include "at_tags.h"
 
 int defORTX5atCommandInterpreter::interpret(string message){
 	
@@ -10,92 +10,71 @@ int defORTX5atCommandInterpreter::interpret(string message){
 	
 	 if(data.find("AT+TRVV")!=string::npos){
 			map<char, double> values;
-	//		map<char, double>::iterator values_it;
+			vector<int> valuesToSend;
 			index=data.find("AT+TRVV");
 			data.erase(0, index+7);
 			values=data.findValuesAfterAcronims();
 		 
-	//		values_it=values.begin();
 			if(!values.empty()){
+				valuesToSend.push_back(AT_TAG_TRVV | qMARK_ATC);
+				valuesToSend.push_back(values.size());
 				
+				for(map<char, double>::iterator it=values.begin(); it!=values.end(); ++it){
+					valuesToSend.push_back((*it).first);
+					valuesToSend.push_back((*it).second);
+				}
+				
+				
+				
+				taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
 				return AT_OK;
 			}
 			return AT_FAIL;
-	 }
+	 }else if(data.find("AT+TRVCO")!=string::npos){
+			map<char, double> values;
+			vector<int> valuesToSend;
+			index=data.find("AT+TRVCO");
+			data.erase(0, index+8);
+			values=data.findValuesAfterAcronims();
+		 
+			if(!values.empty()){
+				valuesToSend.push_back(AT_TAG_TRVCO | qMARK_ATC);
+				valuesToSend.push_back(values.size());
+				
+				for(map<char, double>::iterator it=values.begin(); it!=values.end(); ++it){
+					valuesToSend.push_back((*it).first);
+					valuesToSend.push_back((*it).second);
+				}
+				
+				
+				
+				taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
+				return AT_OK;
+			}
+			return AT_FAIL;
+	 }else if(data.find("AT+BASEC")!=string::npos){
+			index=data.find("AT+BASEC");
+			if(data.at(index+8)=='?'){	
+				
+				            for (int i=0; i < auxCoord->getParams()->size(); ++i) {
+                sendBuffer+=" ";
+                sendBuffer+=auxCoord->getParams()->at(i)->getAcronim();
+                sendBuffer+=QByteArray::number(auxCoord->getParams()->at(i)->getValue());
+            }
+				sprintf(transmitParam->buforTx, "BASEC X%i Y%i Z%i U%i V%i z%i\r\n", 
+														(int32_t)(oCoordinates->baseCoord.X.value*pow(10, 3-oCoordinates->baseCoord.X.unit)), 
+														(int32_t)(oCoordinates->baseCoord.Y.value*pow(10, 3-oCoordinates->baseCoord.Y.unit)),
+														(int32_t)(oCoordinates->baseCoord.Z.value*pow(10, 3-oCoordinates->baseCoord.Z.unit)), 
+														(int32_t)(oCoordinates->baseCoord.U.value*pow(10, 3-oCoordinates->baseCoord.U.unit)), 
+														(int32_t)(oCoordinates->baseCoord.V.value*pow(10, 3-oCoordinates->baseCoord.V.unit)), 
+														(int32_t)(oCoordinates->baseCoord.Zw.value*pow(10, 3-oCoordinates->baseCoord.Zw.unit)));
+				sendResponseUART(transmitParam->UARTx, 1, (char *)transmitParam->buforTx, qUartSend);
+			}else{		
+				data.erase(0, index+8);
+				baseCoord->getParamsFromString(&data);
+				return AT_OK;
+				
+			}
+		}
                
-	
-//	if(!strncmp((char *)transmitParam->buforRx, "AT+TRVCO", 8)){
-
-//					if(oDrive->drivePathParam.activeDrivePath==ACTIVE_DRIVE){
-//						sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "AUT_DRV\r\n", qUartSend);	
-//					}else{
-//						SCoordinates aCoord;
-//						SParam* coord;
-//						oCoordinates->setCoord(&aCoord, oCoordinates->getCoordWithSemaphore(&oCoordinates->baseCoord, oCoordinates->xBaseCoord));
-//						
-//						coord=&aCoord.X;
-//						for(uint32_t i=0;i<LICZBA_OSI;i++){
-//							coord->value*=pow(10, 3-coord->unit);
-//							coord++;
-//						}
-//						
-//						if(findCoordinates(&aCoord, &transmitParam->buforRx[7], BUFOR_RX-7, 0)){
-//							uint32_t auxTag[7];
-//							
-//							coord=&aCoord.X;
-//							for(uint32_t i=0;i<LICZBA_OSI;i++){
-//								coord->value*=pow(10, coord->unit-3);
-//								coord++;
-//							}
-//							oCoordinates->checkCorrectnesCoordinates(&aCoord);
-//							
-//							auxTag[0]=AT_TAG_TRVCO | qMARK_ATC;
-//							auxTag[1]=aCoord.X.value;
-//							auxTag[2]=aCoord.Y.value;
-//							auxTag[3]=aCoord.Z.value;
-//							auxTag[4]=aCoord.U.value;
-//							auxTag[5]=aCoord.V.value;
-//							auxTag[6]=aCoord.Zw.value;
-//							xQueueSendTabToBackWithSemaphore(auxTag, 7, qToDoMark, xToDoMark);
-//							
-//							sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "OK\r\n", qUartSend);	
-//						}else{
-//							sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "FAIL\r\n", qUartSend);	
-//						}
-//					}
-//				}else if(!strncmp((char *)transmitParam->buforRx, "AT+TRVV", 7)){
-
-//					if(oDrive->drivePathParam.activeDrivePath==ACTIVE_DRIVE){
-//						sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "AUT_DRV\r\n", qUartSend);	
-//					}else{ 
-//						SCoordinates aCoord;
-//						oCoordinates->setCoord(&aCoord, oCoordinates->getCoordWithSemaphore(&oCoordinates->baseCoord, oCoordinates->xBaseCoord));
-//						oCoordinates->clearCoord(&aCoord);
-//						
-//						if(findCoordinates(&aCoord, &transmitParam->buforRx[7], BUFOR_RX-7, 0)){
-//							uint32_t auxTag[7];
-//							
-//							SParam* coord=&aCoord.X;
-//							for(uint32_t i=0;i<LICZBA_OSI;i++){
-//								coord->value*=pow(10, coord->unit-3);
-//								coord++;
-//							}
-//							oCoordinates->checkCorrectnesCoordinates(&aCoord);
-//							
-//							auxTag[0]=AT_TAG_TRVV | qMARK_ATC;
-//							auxTag[1]=aCoord.X.value;
-//							auxTag[2]=aCoord.Y.value;
-//							auxTag[3]=aCoord.Z.value;
-//							auxTag[4]=aCoord.U.value;
-//							auxTag[5]=aCoord.V.value;
-//							auxTag[6]=aCoord.Zw.value;
-//							xQueueSendTabToBackWithSemaphore(auxTag, 7, qToDoMark, xToDoMark);
-
-//							sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "OK\r\n", qUartSend);	
-//						}else{
-//							sendResponseUART(transmitParam->UARTx, (transmitParam->atSetups & nATQ), "FAIL\r\n", qUartSend);	
-//						}
-//					}
-//				}
-	
 }

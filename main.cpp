@@ -85,7 +85,7 @@ int main (void) {
 //	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
 //	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
-	taskCommunicationQueues= new defORTX5TaskQueues(osMessageQueueNew(64, sizeof(char), NULL), osSemaphoreNew(1, 0, NULL));
+	taskCommunicationQueues= new defORTX5TaskQueues(osMessageQueueNew(64, sizeof(char), NULL), osMutexNew(NULL));
 	uartCommunicationQueues= new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL));
 	
   Init_vSecondThread(osPriorityLow);   
