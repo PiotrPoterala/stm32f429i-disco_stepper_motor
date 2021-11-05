@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library</IncludePath>
+              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library;..\..\..\PP_library\PP_Command_Library</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -437,6 +437,11 @@
               <FileType>8</FileType>
               <FilePath>.\pp_rtx5_drive_algorithms.cpp</FilePath>
             </File>
+            <File>
+              <FileName>pp_rtx5_at_commands_interpreter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\pp_rtx5_at_commands_interpreter.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -461,6 +466,16 @@
               <FileName>vReceiveAndInterpretDataFromComUartThread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\threads\vReceiveAndInterpretDataFromComUartThread.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtos_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_queue.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_queue.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_queue.cpp</FilePath>
             </File>
           </Files>
         </Group>

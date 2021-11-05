@@ -13,7 +13,9 @@ int defORTX5driveAlgorithms::drive(){
 
 		driveStatus=DRIVE_IN_PROGRESS;
 		phyIndirectPoint=phyEndPoint;
-			
+	
+		motors->clearCounters();
+	
 		while(driveStatus!=DRIVE_COMPLETED && driveStatus!=DRIVE_ABORTED){		
 
 			for(map<char, int>::iterator it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){

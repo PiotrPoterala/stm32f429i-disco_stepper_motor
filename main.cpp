@@ -21,6 +21,7 @@
 
 #include "pp_rtx5_uart_queue.h"
 #include "pp_rtx5_drive_algorithms.h"
+#include "pp_rtx5_queue.h"
 
 #define COORD_PRECISION_MM 0.001250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
@@ -38,14 +39,15 @@ extern int Init_vCheckInputSignalsThread (osPriority_t priority);
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
 extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority); 
 
-osMessageQueueId_t qToDoMark;   
-osMessageQueueId_t qToDoMarkWorkParam;
+//osMessageQueueId_t qToDoMark;   
+//osMessageQueueId_t qToDoMarkWorkParam;
 
 
 
 defOParamList *phyCoord;
 defOParamList *baseCoord;
 
+defORTX5TaskQueues* taskCommunicationQueues;
 defOUartQueues* uartCommunicationQueues;
 
 
@@ -80,10 +82,10 @@ int main (void) {
 
   osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
-	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
-	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
+//	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
+//	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
-	
+	taskCommunicationQueues= new defORTX5TaskQueues(osMessageQueueNew(64, sizeof(char), NULL), osSemaphoreNew(1, 0, NULL));
 	uartCommunicationQueues= new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL));
 	
   Init_vSecondThread(osPriorityLow);   
