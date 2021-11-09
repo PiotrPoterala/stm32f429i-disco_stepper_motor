@@ -438,11 +438,6 @@
               <FilePath>.\pp_rtx5_drive_algorithms.cpp</FilePath>
             </File>
             <File>
-              <FileName>pp_rtx5_at_commands_interpreter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\pp_rtx5_at_commands_interpreter.cpp</FilePath>
-            </File>
-            <File>
               <FileName>at_tags.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\at_tags.h</FilePath>
@@ -518,6 +513,11 @@
           <GroupName>uart</GroupName>
           <Files>
             <File>
+              <FileName>pp_rtx5_at_commands_interpreter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\pp_rtx5_at_commands_interpreter.cpp</FilePath>
+            </File>
+            <File>
               <FileName>pp_rtos_uart_queue.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_uart_queue.cpp</FilePath>
@@ -526,6 +526,11 @@
               <FileName>pp_rtx5_uart_queue.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_uart_queue.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtos_uart_queue_decorator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_uart_queue_decorator.h</FilePath>
             </File>
           </Files>
         </Group>

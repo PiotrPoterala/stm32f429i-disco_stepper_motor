@@ -30,15 +30,6 @@ void vReceiveAndInterpretDataFromComUartThread(void *argument) {
   while (1) {
 		
 			uartCommunicationQueues->getStringFromReceiveQueue();
-		
-			if(uartCommunicationQueues->isReceiveString()){
-
-//					oComunicationWithPP16ster.interpretATcommand(&oComunicationWithPP16ster.transmitParam, &oAutWork, &oTools.tools.itemsParam, &oTankErrors, &oPowerErrors, &oEquipmentDetect,
-//																											qUartPP16STERsend, qToDoMarkTools, xGenerSend);
-					uartCommunicationQueues->clearReceiveString();
-
-			}
-
 			           
   }
 }

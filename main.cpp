@@ -22,6 +22,7 @@
 #include "pp_rtx5_uart_queue.h"
 #include "pp_rtx5_drive_algorithms.h"
 #include "pp_rtx5_queue.h"
+#include "pp_rtx5_at_commands_interpreter.h"
 
 #define COORD_PRECISION_MM 0.001250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
@@ -86,7 +87,7 @@ int main (void) {
 //	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
 	taskCommunicationQueues= new defORTX5TaskQueues(osMessageQueueNew(64, sizeof(char), NULL), osMutexNew(NULL));
-	uartCommunicationQueues= new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL));
+	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL)), taskCommunicationQueues, phyCoord, baseCoord);
 	
   Init_vSecondThread(osPriorityLow);   
 	Init_vCheckInputSignalsThread (osPriorityHigh);
