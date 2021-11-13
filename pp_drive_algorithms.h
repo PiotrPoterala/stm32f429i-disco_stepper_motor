@@ -201,7 +201,7 @@
 			int driveStatus;
 		
 		
-		defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
+			defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
 		
 		
 			void setParToDriveForValue(map<char, int> values);

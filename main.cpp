@@ -40,22 +40,16 @@ extern int Init_vCheckInputSignalsThread (osPriority_t priority);
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
 extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority); 
 
-//osMessageQueueId_t qToDoMark;   
-//osMessageQueueId_t qToDoMarkWorkParam;
-
-
 
 defOParamList *phyCoord;
 defOParamList *baseCoord;
 
-defORTX5TaskQueues* taskCommunicationQueues;
+defORTX5TaskQueues<int>* taskCommunicationQueues;
 defOUartQueues* uartCommunicationQueues;
 
 
 defOMotorsList motors;
 defODriveAlgorithms* motorsAlgorithms;
-
-map<string, string> *strings;
 
 
 int main (void) {
@@ -75,24 +69,23 @@ int main (void) {
 	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 
-	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
-																(new defOControlCoordinateDecorator
-																	(new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
-	
-	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
+//	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
+//																(new defOControlCoordinateDecorator
+//																	(new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
+//	
+//	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
   osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
-//	qToDoMark = osMessageQueueNew(256, sizeof(unsigned int), NULL);
-//	qToDoMarkWorkParam = osMessageQueueNew(16, sizeof(unsigned int), NULL);
 	
-	taskCommunicationQueues= new defORTX5TaskQueues(osMessageQueueNew(64, sizeof(char), NULL), osMutexNew(NULL));
-	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL)), taskCommunicationQueues, phyCoord, baseCoord);
-	
+	taskCommunicationQueues= new defORTX5TaskQueues<int>();
+//	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART2, osMessageQueueNew(64, sizeof(char), NULL), osMessageQueueNew(64, sizeof(char), NULL)), taskCommunicationQueues, phyCoord, baseCoord);
+//	
   Init_vSecondThread(osPriorityLow);   
 	Init_vCheckInputSignalsThread (osPriorityHigh);
-	Init_vRealizationFunctionThread(osPriorityNormal);
-	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityNormal); 
+//	Init_vRealizationFunctionThread(osPriorityNormal);
+//	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityNormal); 
+	
 	
   osKernelStart();                      // Start thread execution
   for (;;) {}

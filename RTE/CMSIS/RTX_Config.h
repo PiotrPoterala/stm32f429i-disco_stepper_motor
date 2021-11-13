@@ -44,7 +44,7 @@
 //   <i> Defines the combined global dynamic memory size.
 //   <i> Default: 4096
 #ifndef OS_DYNAMIC_MEM_SIZE
-#define OS_DYNAMIC_MEM_SIZE         4096
+#define OS_DYNAMIC_MEM_SIZE         36864
 #endif
  
 //   <o>Kernel Tick Frequency [Hz] <1-1000000>
@@ -57,7 +57,7 @@
 //   <e>Round-Robin Thread switching
 //   <i> Enables Round-Robin Thread switching.
 #ifndef OS_ROBIN_ENABLE
-#define OS_ROBIN_ENABLE             1
+#define OS_ROBIN_ENABLE             0
 #endif
  
 //     <o>Round-Robin Timeout <1-1000>

@@ -9,7 +9,7 @@
 	#include <string>
 	
 	
-		#define qMARK_TAG	(1<<28)
+	#define qMARK_TAG	(1<<28)
 	#define qMARK_KEY	(2<<28)
 	#define qMARK_ATC	(3<<28)
 	
@@ -18,12 +18,12 @@
 class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
 		
 	private:
-		defORTX5TaskQueues* taskCommunicationQueues;
+		defORTX5TaskQueues<int>* taskCommunicationQueues;
 		defOParamList *phyCoord;
 		defOParamList *baseCoord;
 		
 	public:
-		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues* commQueues, defOParamList *pCoord, defOParamList *bCoord):
+		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord):
 																defOUartQueuesDecorator(uQueues), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord){};
 		virtual void getStringFromReceiveQueue();
 	//	int interpret(string message);

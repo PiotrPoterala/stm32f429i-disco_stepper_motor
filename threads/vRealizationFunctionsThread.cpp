@@ -1,11 +1,13 @@
 #include "cmsis_os2.h"                          // CMSIS RTOS header file
- #include "input_signals.h"
- //#include "button_marks.h"
+#include "pp_rtx5_queue.h"
+#include "pp_rtx5_at_commands_interpreter.h"
+#include "at_tags.h"
+#include "pp_rtx5_drive_algorithms.h"
 /*----------------------------------------------------------------------------
  *      Thread 1 'Thread_Name': Sample thread
  *---------------------------------------------------------------------------*/
- 
- extern osMessageQueueId_t qToDoMark;
+ extern defORTX5TaskQueues<int>* taskCommunicationQueues;
+ extern defODriveAlgorithms* motorsAlgorithms;
  
 osThreadId_t tid_vRealizationFunctionThread;                        // thread id
  
@@ -26,12 +28,41 @@ void vRealizationFunctionThread (void *argument) {
  	osStatus_t status;
 	int tick=0;
 	
-//	defOButtonMarks oButtonMarks=defOButtonMarks();
-//	int mark=0;
-//	
-//  while (1) {
-//			status=osMessageQueueGet(qToDoMark, &mark, NULL, osWaitForever);
-//			if(status == osOK){
+	int receiveData=0;
+	
+  while (1) {
+		
+			if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
+				if(receiveData==qMARK_ATC){
+					if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
+						switch(receiveData){
+							case AT_TAG_TRVV:
+								if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
+									map<char, int>values;
+									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
+									motorsAlgorithms->setParToDriveForValue(values);
+									motorsAlgorithms->drive();
+									
+								}
+								break;
+							case AT_TAG_TRVCO:
+								if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
+									map<char, int>values;
+									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
+									motorsAlgorithms->setParToDriveToBaseCoordinates(values);
+									motorsAlgorithms->drive();	
+								}
+								break;			
+							
+							
+							
+						}
+						
+						
+						
+					}
+					
+				}
 //				
 //				oButtonMarks.decodeToDoMark(mark);
 //				
@@ -49,42 +80,7 @@ void vRealizationFunctionThread (void *argument) {
 //				oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);					
 //			}else if(oButtonMarks.tag==TAG_MENU_PODR_1 || oButtonMarks.key==KEY_F1 || oButtonMarks.atc==AT_TAG_TRVV){
 //				
-//				
-//			tick = osKernelGetTickCount(); 
-
-//		(*infoDrive)=DRIVE_IN_PROGRESS;
-//		oCoordinates->setCoord(&driveParam->indirectCoord, driveParam->pointB);
 //			
-//		while((*infoDrive)!=PRZEJ_ZREALIZOWANO && (*infoDrive)!=PRZEJ_PORZUCONO){		
-
-//			driveTIM();
-
-//			status=osMessageQueueGet(qToDoMark, &mark, NULL, 0);
-//			if(status == osOK){
-//				oButtonMarks.decodeToDoMark(mark);
-
-//				if(oButtonMarks.toDoMark.tag==TAG_MENU_PODR_1 || oButtonMarks.toDoMark.tag==TAG_ESC || oButtonMarks.toDoMark.atc==AT_TAG_STOP ||
-//						oButtonMarks.toDoMark.key==KEY_STOP || oButtonMarks.toDoMark.key==KEY_F1 || oButtonMarks.toDoMark.key==KEY_ESC){
-//					brakingDrive(&oCoordinates->phyCoord.X, driveParam->pointA.X.value, driveParam->pointB.X.value, &driveParam->indirectCoord.X.value, feedrateJog);
-//					brakingDrive(&oCoordinates->phyCoord.Y, driveParam->pointA.Y.value, driveParam->pointB.Y.value, &driveParam->indirectCoord.Y.value, feedrateJog);
-//					brakingDrive(&oCoordinates->phyCoord.Z, driveParam->pointA.Z.value, driveParam->pointB.Z.value, &driveParam->indirectCoord.Z.value, feedrateJog);
-//					brakingDrive(&oCoordinates->phyCoord.U, driveParam->pointA.U.value, driveParam->pointB.U.value, &driveParam->indirectCoord.U.value, feedrateJog);
-//					brakingDrive(&oCoordinates->phyCoord.V, driveParam->pointA.V.value, driveParam->pointB.V.value, &driveParam->indirectCoord.V.value, feedrateJog);
-//					brakingDrive(&oCoordinates->phyCoord.Zw, driveParam->pointA.Zw.value, driveParam->pointB.Zw.value, &driveParam->indirectCoord.Zw.value, feedrateJog);
-//				}
-
-//			}
-
-
-//			if((*infoDrive)==PRZEJ_SPAUZOWANO){		
-//				stopDrive(oCoordinates, oMenu, driveParam, infoDrive, language, qToDoMark);	
-//				taskCount=xTaskGetTickCount();
-//			}
-
-//			osDelayUntil(tick += pd100US_TO_TICKS(10000/BASE_FREQUENCY_OF_TIMdrive));
-//		}
-//		
-//		oCheckSignalsLimitedStop->madeSignals=0;
 //				
 //				
 //				
@@ -153,6 +149,6 @@ void vRealizationFunctionThread (void *argument) {
 //			}
 				
 				
-//		}
-//  }
+		}
+  }
 }

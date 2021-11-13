@@ -9,7 +9,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 	if(uartQueues->isReceiveString()){
 	
 		PString data(uartQueues->getReceiveString());
-		string answer;
+		string answer="FAIL";
 		int index=0;
 		
 		
@@ -21,7 +21,8 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 				values=data.findValuesAfterAcronims();
 			 
 				if(!values.empty()){
-					valuesToSend.push_back(AT_TAG_TRVV | qMARK_ATC);
+					valuesToSend.push_back(qMARK_ATC);
+					valuesToSend.push_back(AT_TAG_TRVV);
 					valuesToSend.push_back(values.size());
 					
 					for(map<char, double>::iterator it=values.begin(); it!=values.end(); ++it){
@@ -32,8 +33,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
 					answer="OK";
-				}
-				answer="FAIL";
+				};
 		 }else if(data.find("AT+TRVCO")!=string::npos){
 				map<char, double> values;
 				vector<int> valuesToSend;
@@ -42,7 +42,8 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 				values=data.findValuesAfterAcronims();
 			 
 				if(!values.empty()){
-					valuesToSend.push_back(AT_TAG_TRVCO | qMARK_ATC);
+					valuesToSend.push_back(qMARK_ATC);
+					valuesToSend.push_back(AT_TAG_TRVCO);
 					valuesToSend.push_back(values.size());
 					
 					for(map<char, double>::iterator it=values.begin(); it!=values.end(); ++it){
@@ -54,8 +55,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
 					answer="OK";
-				}
-				answer="FAIL";
+				};
 		 }else if(data.find("AT+BASEC")!=string::npos){
 				index=data.find("AT+BASEC");
 				if(data.at(index+8)=='?'){	

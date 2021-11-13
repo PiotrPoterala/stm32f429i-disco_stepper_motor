@@ -22,8 +22,7 @@ int Init_vSecondThread  (osPriority_t priority) {
 void vSecondThread (void *argument) {
  
   while (1) {
-    PIN_TOG(PORT_LED, LED1); 
-//		PIN_TOG(GPIOC, LED1); 
+    PIN_TOG(PORT_LED, LED1);  
     osDelay(10000);  
   }
 }
