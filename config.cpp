@@ -21,7 +21,7 @@ void NVIC_Config(void)
 		NVIC_SetPriorityGrouping(NVIC_PriGroup_4); //16 priorytetów preemption, brak subpriorytetów 
 
 
-		NVIC_SetPriority(USART2_IRQn, 7);  	
+		NVIC_SetPriority(USART2_IRQn, 1);  	
 		NVIC_EnableIRQ(USART2_IRQn);
 
 }
@@ -86,7 +86,7 @@ void USART_Config(void)
 	USART2->CR1&=~USART_CR1_TXEIE;
 	USART2->CR1|=USART_CR1_RE;
 	USART2->CR1|=USART_CR1_RXNEIE;
-	USART2->CR1|=USART_CR1_UE;	
+//	USART2->CR1|=USART_CR1_UE;	
 
 }
 

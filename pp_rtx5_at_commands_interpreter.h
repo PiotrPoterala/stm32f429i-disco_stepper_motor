@@ -1,7 +1,7 @@
 #ifndef _RTX5_AT_COMMAND_INTERPRETER_H
 	#define _RTX5_AT_COMMAND_INTERPRETER_H
 	
-	#include "pp_command.h"
+//	#include "pp_command.h"
 	#include "pp_rtos_uart_queue_decorator.h"
 	#include "pp_rtx5_queue.h"
 	#include "pp_paramlist.h"
@@ -23,10 +23,26 @@ class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
 		defOParamList *baseCoord;
 		
 	public:
-		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord):
-																defOUartQueuesDecorator(uQueues), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord){};
-		virtual void getStringFromReceiveQueue();
-	//	int interpret(string message);
+		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
+		virtual void getStringFromReceiveQueue() override;
+	
+	
+//		virtual void putStringToSendQueueAndStartSend(string &data) override {uartQueues->putStringToSendQueueAndStartSend(data);};
+//		virtual int sendSignFromSendQueue() override {return uartQueues->sendSignFromSendQueue();};
+//		virtual void receiveSignAndWriteToReceiveQueue() override {uartQueues->receiveSignAndWriteToReceiveQueue();};
+//		
+//		virtual bool isReceiveString() override {return uartQueues->isReceiveString();};
+//		virtual string getReceiveString() override {return uartQueues->getReceiveString();};
+//		virtual void clearReceiveString() override {uartQueues->clearReceiveString();};
+	
+//			virtual void putStringToSendQueueAndStartSend(string &data){defOUartQueuesDecorator::putStringToSendQueueAndStartSend(data);};
+//			virtual int sendSignFromSendQueue(){return defOUartQueuesDecorator::sendSignFromSendQueue();};
+//			virtual void receiveSignAndWriteToReceiveQueue(){defOUartQueuesDecorator::receiveSignAndWriteToReceiveQueue();};
+//			virtual void getStringFromReceiveQueue();
+//			
+//			virtual bool isReceiveString(){return defOUartQueuesDecorator::isReceiveString();};
+//			virtual string getReceiveString(){return defOUartQueuesDecorator::getReceiveString();};
+//			virtual void clearReceiveString(){defOUartQueuesDecorator::clearReceiveString();};
 
 	};
 

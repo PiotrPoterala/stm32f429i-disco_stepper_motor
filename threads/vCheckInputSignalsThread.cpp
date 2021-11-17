@@ -29,8 +29,8 @@ void vCheckInputSignalsThread (void *argument) {
 	tick = osKernelGetTickCount(); 
 	
   while (1) {
-		PIN_TOG(PORT_LED, LED2);
 			//sprawdzenie krańcówek
+		PIN_TOG(PORT_LED, LED2); 
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xplus, kKRAN_Xplus);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xmin, kKRAN_Xmin);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Yplus, kKRAN_Yplus);
@@ -49,7 +49,7 @@ void vCheckInputSignalsThread (void *argument) {
 //				oCheckSignalsLimitedStop.madeSignals &=~1;
 //			}
 		
-  		tick += 2;    
+  		tick += 5000;    
 			osDelayUntil(tick);
 			
   }

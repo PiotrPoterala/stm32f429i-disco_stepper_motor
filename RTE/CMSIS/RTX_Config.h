@@ -44,7 +44,7 @@
 //   <i> Defines the combined global dynamic memory size.
 //   <i> Default: 4096
 #ifndef OS_DYNAMIC_MEM_SIZE
-#define OS_DYNAMIC_MEM_SIZE         36864
+#define OS_DYNAMIC_MEM_SIZE         8192
 #endif
  
 //   <o>Kernel Tick Frequency [Hz] <1-1000000>
@@ -146,7 +146,7 @@
 //   <i> Enables stack overrun check at thread switch.
 //   <i> Enabling this option increases slightly the execution time of a thread switch.
 #ifndef OS_STACK_CHECK
-#define OS_STACK_CHECK              1
+#define OS_STACK_CHECK              0
 #endif
  
 //   <q>Stack usage watermark
@@ -343,7 +343,7 @@
 //   <e>Global Initialization
 //   <i> Initialize Event Recorder during 'osKernelInitialize'.
 #ifndef OS_EVR_INIT
-#define OS_EVR_INIT                 0
+#define OS_EVR_INIT                 1
 #endif
  
 //     <q>Start recording

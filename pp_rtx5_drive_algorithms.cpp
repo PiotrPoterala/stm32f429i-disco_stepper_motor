@@ -5,10 +5,7 @@ int defORTX5driveAlgorithms::drive(){
 	int tick;
 	
 	tick = osKernelGetTickCount(); 
-	//	defOButtonMarks oButtonMarks;
-								
-													
-	//	OButtonMarksConstruct(&oButtonMarks);
+
 
 
 		driveStatus=DRIVE_IN_PROGRESS;
@@ -20,22 +17,22 @@ int defORTX5driveAlgorithms::drive(){
 
 			for(map<char, int>::iterator it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
 				
-				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
-					if(motors->getMotor((*it).first)->counter>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParam((*it).first)->getValue()-(*it).second)/phyCoord->getParam((*it).first)->getPrecision(), 
-																																														abs(phyEndPoint.find((*it).second)->second-phyCoord->getParam((*it).first)->getValue())/phyCoord->getParam((*it).first)->getPrecision(), motors->getMotor((*it).first)->accelerationMMperSEC2, 
-																																														motors->getMotor((*it).first)->velocityUMperSEC->getValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParam((*it).first)->getPrecision())){
-	
+//				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
+//					if(motors->getMotor((*it).first)->counter>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParam((*it).first)->getValue()-(*it).second)/phyCoord->getParam((*it).first)->getPrecision(), 
+//																																														abs(phyEndPoint.find((*it).second)->second-phyCoord->getParam((*it).first)->getValue())/phyCoord->getParam((*it).first)->getPrecision(), motors->getMotor((*it).first)->accelerationMMperSEC2, 
+//																																														motors->getMotor((*it).first)->velocityUMperSEC->getValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParam((*it).first)->getPrecision())){
+//	
 
-						if(phyVector.find((*it).first)->second>0){
-							motors->getMotor((*it).first)->rotateForward();
-						}else if(phyVector.find((*it).first)->second<0){
-							motors->getMotor((*it).first)->rotateBackwards();
-						}
-						motors->getMotor((*it).first)->counter=1;
-					}else{
-						motors->getMotor((*it).first)->counter++;
-					}
-				}
+//						if(phyVector.find((*it).first)->second>0){
+//							motors->getMotor((*it).first)->rotateForward();
+//						}else if(phyVector.find((*it).first)->second<0){
+//							motors->getMotor((*it).first)->rotateBackwards();
+//						}
+//						motors->getMotor((*it).first)->counter=1;
+//					}else{
+//						motors->getMotor((*it).first)->counter++;
+//					}
+//				}
 				
 			}
 
