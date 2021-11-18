@@ -108,13 +108,12 @@ defODriveAlgorithms* motorsAlgorithms;
 	
 //}
 
+
 int main (void) {
 	
   // System Initialization
 	RCC_Config();
-	NVIC_Config();
 	GPIO_Config();
-	USART_Config();
 	
 //	funTest(test);
 
@@ -135,12 +134,11 @@ int main (void) {
 	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
 
-	defOStepperMotorDriver* test=new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP);
-	
+
 //	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
 //																(new defOControlCoordinateDecorator
 //																	(new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
-////	
+//	
 //	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
 	EventRecorderInitialize (EventRecordAll, 1);
@@ -148,13 +146,16 @@ int main (void) {
 	
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
-	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART2), taskCommunicationQueues, phyCoord, baseCoord);
+	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
 
+	NVIC_Config();
+	USART_Config();
+	
 
-	Init_vSecondThread(osPriorityLow); 
+	Init_vSecondThread(osPriorityHigh); 
 	Init_vRealizationFunctionThread(osPriorityBelowNormal);  
 	Init_vCheckInputSignalsThread (osPriorityNormal);
-	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
+	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityLow); 
 	
 	
   osKernelStart();                      // Start thread execution

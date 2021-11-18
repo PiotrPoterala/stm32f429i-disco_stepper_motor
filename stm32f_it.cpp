@@ -5,13 +5,9 @@
 extern defOUartQueues* uartCommunicationQueues;
 
 
-void USART2_IRQHandler(void){
+void USART1_IRQHandler(void){
 
-	if(USART2->SR & USART_SR_RXNE){  
-		uartCommunicationQueues->receiveSignAndWriteToReceiveQueue();
-  }else if(USART2->SR & USART_SR_TXE){  
-		 uartCommunicationQueues->sendSignFromSendQueue();
-  }
+	uartCommunicationQueues->portListen();
 
 }
 

@@ -25,11 +25,21 @@ int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority) {
 }
 
 void vReceiveAndInterpretDataFromComUartThread(void *argument) {
-
+string receiveString;
+	char receiveChar;
 	
   while (1) {
 		
-			uartCommunicationQueues->getStringFromReceiveQueue();
-			           
+			uartCommunicationQueues->getStringFromReceiveQueue();    
+//			if(osMessageQueueGet(receiveQueue, &receiveChar, NULL, osWaitForever) == osOK){
+
+//				receiveString+=receiveChar; 
+
+//				if(receiveString.size()>64){
+//						receiveString.clear();
+//					
+//				}
+
+//			} 		
   }
 }

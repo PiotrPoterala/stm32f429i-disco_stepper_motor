@@ -3,8 +3,11 @@
 
 //#include "input_signals_analysis.h"
 #include "input_signals.h"
+#include "pp_rtos_uart_queue.h"
 
+#include <string>
 
+extern defOUartQueues* uartCommunicationQueues;
 //extern defOCheckSignals oCheckSignalsLimitedStop;
 
 /*----------------------------------------------------------------------------
@@ -25,12 +28,17 @@ int Init_vCheckInputSignalsThread (osPriority_t priority) {
 
 void vCheckInputSignalsThread (void *argument) {
 	uint32_t tick;
+	string test="start";
 	
 	tick = osKernelGetTickCount(); 
 	
   while (1) {
 			//sprawdzenie krańcówek
 		PIN_TOG(PORT_LED, LED2); 
+		
+		
+		uartCommunicationQueues->putStringToSendQueueAndStartSend(test);
+		
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xplus, kKRAN_Xplus);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xmin, kKRAN_Xmin);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Yplus, kKRAN_Yplus);

@@ -18,7 +18,7 @@
 /* Exported functions ------------------------------------------------------- */
 
 
-void USART2_IRQHandler(void);
+void USART1_IRQHandler(void);
 
 
 #ifdef __cplusplus
