@@ -7,7 +7,7 @@
  *      Thread 1 'Thread_Name': Sample thread
  *---------------------------------------------------------------------------*/
  extern defORTX5TaskQueues<int>* taskCommunicationQueues;
-// extern defODriveAlgorithms* motorsAlgorithms;
+ extern defODriveAlgorithms* motorsAlgorithms;
  
 osThreadId_t tid_vRealizationFunctionThread;                        // thread id
  
@@ -40,8 +40,8 @@ void vRealizationFunctionThread (void *argument) {
 								if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
 									map<char, int>values;
 									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
-//									motorsAlgorithms->setParToDriveForValue(values);
-//									motorsAlgorithms->drive();
+									motorsAlgorithms->setParToDriveForValue(values);
+									motorsAlgorithms->drive();
 									
 								}
 								break;
@@ -49,8 +49,8 @@ void vRealizationFunctionThread (void *argument) {
 								if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
 									map<char, int>values;
 									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
-//									motorsAlgorithms->setParToDriveToBaseCoordinates(values);
-//									motorsAlgorithms->drive();	
+									motorsAlgorithms->setParToDriveToBaseCoordinates(values);
+									motorsAlgorithms->drive();	
 								}
 								break;			
 							

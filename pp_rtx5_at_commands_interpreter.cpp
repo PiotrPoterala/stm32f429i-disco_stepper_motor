@@ -15,7 +15,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 	if(defOUartQueuesDecorator::isReceiveString()){
 	
 		PString data(defOUartQueuesDecorator::getReceiveString());
-		string answer="FAIL";
+		string answer="FAIL\r\n";
 		int index=0;
 		
 		 if(data.find("AT+TRVV")!=string::npos){
@@ -70,11 +70,11 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 							answer+=(*i).first;  
 							answer+=to_string((*i).second->getValue()); 
 					}
-
+					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
 					baseCoord->getParamsFromString(&data);
-					answer="OK";
+					answer="OK\r\n";
 				}
 			}else if(data.find("AT+PHYC")!=string::npos){
 				index=data.find("AT+PHYC");
@@ -85,11 +85,11 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 							answer+=(*i).first;  
 							answer+=to_string((*i).second->getValue()); 
 					}
-
+					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
 					phyCoord->getParamsFromString(&data);
-					answer="OK";
+					answer="OK\r\n";
 				}
 			}
 		 

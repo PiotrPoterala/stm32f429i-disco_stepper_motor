@@ -7,7 +7,7 @@
 
 #include <string>
 
-extern defOUartQueues* uartCommunicationQueues;
+//extern defOUartQueues* uartCommunicationQueues;
 //extern defOCheckSignals oCheckSignalsLimitedStop;
 
 /*----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ void vCheckInputSignalsThread (void *argument) {
 		PIN_TOG(PORT_LED, LED2); 
 		
 		
-		uartCommunicationQueues->putStringToSendQueueAndStartSend(test);
+	//	uartCommunicationQueues->putStringToSendQueueAndStartSend(test);
 		
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xplus, kKRAN_Xplus);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xmin, kKRAN_Xmin);

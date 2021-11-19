@@ -17,6 +17,10 @@
 	#define RCC_PLLCFGR_PLLR_V2		0x0
 	#define RCC_PLLCFGR_PLLM_V2		0x10
 	
+	#define RCC_PLLCFGR_PLLM_DIV4			4
+	#define RCC_PLLCFGR_PLLN_MUL180		(180<<6)
+	#define RCC_PLLCFGR_PLLP_DIV2			0x0
+	
 
 	#define  USART_BSTOP_CLR   0xCFFF           
 	#define  USART_BSTOP_1     0x0000          

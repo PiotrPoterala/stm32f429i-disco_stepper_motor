@@ -10,22 +10,15 @@ void RCC_Config(void){
 		RCC->CR |= RCC_CR_HSEON;
 		while(!(RCC->CR & RCC_CR_HSERDY));
 	
- 
-    /* Select regulator voltage output Scale 1 mode */
-//    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
-//    PWR->CR |= PWR_CR_VOS;
-
-
-//    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
-//                   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+	  RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    PWR->CR |= PWR_CR_VOS;
 
 		RCC->CR&=~RCC_CR_PLLON;
 		while(RCC->CR & RCC_CR_PLLRDY);
 		RCC->PLLCFGR|=RCC_PLLCFGR_PLLSRC;
-		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLM) | RCC_PLLCFGR_PLLM_DIV12;
-		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLN) | RCC_PLLCFGR_PLLN_MUL240;
+		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLM) | RCC_PLLCFGR_PLLM_DIV4;
+		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLN) | RCC_PLLCFGR_PLLN_MUL180;
 		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLP) | RCC_PLLCFGR_PLLP_DIV2;
-		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLQ) | RCC_PLLCFGR_PLLP_DIV2;
 		RCC->CR|=RCC_CR_PLLON;
 		while(!(RCC->CR & RCC_CR_PLLRDY));
 	
@@ -47,6 +40,7 @@ void RCC_Config(void){
 
   
 		SystemCoreClockUpdate();
+		
 //odblokowanie taktowania dla niezbędnych peryferiów
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;	
