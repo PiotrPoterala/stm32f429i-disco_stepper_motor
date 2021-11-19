@@ -8,7 +8,8 @@ void RCC_Config(void){
 		SystemInit();
 	
 		RCC->CR |= RCC_CR_HSEON;
-		while(!(RCC->CR & RCC_CR_HSERDY));
+		while(!(RCC->CR & RCC_CR_HSERDY)) 
+			;
 	
 	  RCC->APB1ENR |= RCC_APB1ENR_PWREN;
     PWR->CR |= PWR_CR_VOS;
@@ -20,7 +21,8 @@ void RCC_Config(void){
 		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLN) | RCC_PLLCFGR_PLLN_MUL180;
 		RCC->PLLCFGR=(RCC->PLLCFGR & ~RCC_PLLCFGR_PLLP) | RCC_PLLCFGR_PLLP_DIV2;
 		RCC->CR|=RCC_CR_PLLON;
-		while(!(RCC->CR & RCC_CR_PLLRDY));
+		while(!(RCC->CR & RCC_CR_PLLRDY)) 
+			;
 	
    
     PWR->CR |= PWR_CR_ODEN;

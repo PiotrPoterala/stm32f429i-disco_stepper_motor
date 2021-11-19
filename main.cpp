@@ -108,7 +108,6 @@ defODriveAlgorithms* motorsAlgorithms;
 	
 //}
 
-
 int main (void) {
 	
   // System Initialization

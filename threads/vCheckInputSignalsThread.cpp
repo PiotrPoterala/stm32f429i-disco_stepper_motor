@@ -7,7 +7,7 @@
 
 #include <string>
 
-//extern defOUartQueues* uartCommunicationQueues;
+extern defOUartQueues* uartCommunicationQueues;
 //extern defOCheckSignals oCheckSignalsLimitedStop;
 
 /*----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ int Init_vCheckInputSignalsThread (osPriority_t priority) {
 
 void vCheckInputSignalsThread (void *argument) {
 	uint32_t tick;
-	string test="start";
+//	string test="start";
 	
 	tick = osKernelGetTickCount(); 
 	
@@ -37,7 +37,7 @@ void vCheckInputSignalsThread (void *argument) {
 		PIN_TOG(PORT_LED, LED2); 
 		
 		
-	//	uartCommunicationQueues->putStringToSendQueueAndStartSend(test);
+	//	*uartCommunicationQueues<<test<<"\r\n";
 		
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xplus, kKRAN_Xplus);
 //			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xmin, kKRAN_Xmin);
