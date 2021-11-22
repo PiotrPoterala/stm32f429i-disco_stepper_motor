@@ -442,6 +442,16 @@
               <FileType>5</FileType>
               <FilePath>.\at_tags.h</FilePath>
             </File>
+            <File>
+              <FileName>pp_param_general.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\pp_param_general.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_param_mutex_decorator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\pp_rtx5_param_mutex_decorator.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

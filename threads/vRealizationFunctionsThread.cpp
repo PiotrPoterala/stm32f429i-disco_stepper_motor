@@ -3,11 +3,14 @@
 #include "pp_rtx5_at_commands_interpreter.h"
 #include "at_tags.h"
 #include "pp_rtx5_drive_algorithms.h"
+#include <string>
 /*----------------------------------------------------------------------------
  *      Thread 1 'Thread_Name': Sample thread
  *---------------------------------------------------------------------------*/
  extern defORTX5TaskQueues<int>* taskCommunicationQueues;
  extern defODriveAlgorithms* motorsAlgorithms;
+ 
+ extern defOUartQueues* uartCommunicationQueues;
  
 osThreadId_t tid_vRealizationFunctionThread;                        // thread id
  
@@ -40,6 +43,14 @@ void vRealizationFunctionThread (void *argument) {
 								if(taskCommunicationQueues->xQueueReceive(&receiveData, osWaitForever) == osOK){
 									map<char, int>values;
 									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
+									
+//									for(auto it=values.begin(); it!=values.end(); it++){
+//										string str;
+//										str+=(*it).first;
+//										str+=" ";
+//										str+=to_string((*it).second);
+//									(*uartCommunicationQueues)<<str<<"\r\n";
+//									}
 									motorsAlgorithms->setParToDriveForValue(values);
 									motorsAlgorithms->drive();
 									

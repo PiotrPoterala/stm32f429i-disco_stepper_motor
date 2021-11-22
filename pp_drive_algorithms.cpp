@@ -34,10 +34,10 @@ void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> values){
 	phyStartPoint=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
 	
-	for(map<char, int>::iterator it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
+	for(auto it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
 		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
-			map<char, int>::iterator values_it=values.find((*it).first);
-			if(values_it!=values.end())phyEndPoint.find((*it).first)->second+=(values_it->second-baseCoord->getParam((*it).first)->getValue());
+			auto values_it=values.find((*it).first);
+			if(values_it!=values.end())phyEndPoint.find((*it).first)->second+=(values_it->second-baseCoord->getParamValue((*it).first));
 		}
 		phyVector.find((*it).first)->second=phyEndPoint.find((*it).first)->second-phyStartPoint.find((*it).first)->second;
 	}

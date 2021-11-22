@@ -65,11 +65,6 @@ void NVIC_Config(void)
 void GPIO_Config(void)
 {
 //konfiguracja portu A
-//	ALT_SET_REG(GPIOA, Pin2, IO_OUT_HS);
-//	GPIOA->AFR[0]=(GPIOA->AFR[0] & ~(0xF<<(Pin2*4))) | (GPIO_AFR_AF7<<(Pin2*4)); //USART2 TX
-//	ALT_SET_REG(GPIOA, Pin3, IO_OUT_HS);
-//	GPIOA->AFR[0]=(GPIOA->AFR[0] & ~(0xF<<(Pin3*4))) | (GPIO_AFR_AF7<<(Pin3*4));	//USART2 RX
-	
 	ALT_SET_REG(GPIOA, Pin9, IO_OUT_HS);
 	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xF<<((Pin9-8)*4))) | (GPIO_AFR_AF7<<((Pin9-8)*4)); //USART1 TX
 	ALT_SET_REG(GPIOA, Pin10, IO_OUT_HS);

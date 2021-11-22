@@ -32,7 +32,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					for(auto it=values.begin(); it!=values.end(); ++it){
 						valuesToSend.push_back((*it).first);
-						valuesToSend.push_back((*it).second);
+						valuesToSend.push_back((*it).second*pow(10.0, phyCoord->getParamUnit((*it).first)));
 					}
 					
 					
@@ -53,7 +53,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					for(auto it=values.begin(); it!=values.end(); ++it){
 						valuesToSend.push_back((*it).first);
-						valuesToSend.push_back((*it).second);
+						valuesToSend.push_back((*it).second*pow(10.0, phyCoord->getParamUnit((*it).first)));
 					}
 					
 					
@@ -64,37 +64,28 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 		 }else if(data.find("AT+BASEC")!=string::npos){
 				index=data.find("AT+BASEC");
 				if(data.at(index+8)=='?'){	
-					answer="BASEC";
-					for (auto i=baseCoord->getParams()->begin(); i!=baseCoord->getParams()->end(); ++i) {
-							answer+=" ";
-							answer+=(*i).first;  
-							answer+=to_string((*i).second->getValue()); 
-					}
+					answer="BASEC ";
+					answer+=baseCoord->getStringWithParams();
 					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
-					baseCoord->getParamsFromString(&data);
+					baseCoord->setParamsBasedString(&data);
 					answer="OK\r\n";
 				}
 			}else if(data.find("AT+PHYC")!=string::npos){
 				index=data.find("AT+PHYC");
 				if(data.at(index+7)=='?'){	
-					answer="PHYC";
-					for (auto i=phyCoord->getParams()->begin(); i!=phyCoord->getParams()->end(); ++i) {
-							answer+=" ";
-							answer+=(*i).first;  
-							answer+=to_string((*i).second->getValue()); 
-					}
+					answer="PHYC ";
+					answer+=phyCoord->getStringWithParams();
 					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
-					phyCoord->getParamsFromString(&data);
+					phyCoord->setParamsBasedString(&data);
 					answer="OK\r\n";
 				}
 			}
 		 
-			
-			putStringToSendQueueAndStartSend(answer);
+			defOUartQueuesDecorator::putStringToSendQueueAndStartSend(answer);
 			defOUartQueuesDecorator::clearReceiveString();
 		}
                

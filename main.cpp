@@ -26,6 +26,7 @@
 #include "pp_rtx5_drive_algorithms.h"
 #include "pp_rtx5_queue.h"
 #include "pp_rtx5_at_commands_interpreter.h"
+#include "pp_rtx5_param_mutex_decorator.h"
 
 #define COORD_PRECISION_MM 0.001250				//w rzeczywistości 0,001250
 #define COORD_UNIT 6	
@@ -49,7 +50,6 @@ defOParamList *baseCoord;
 
 defORTX5TaskQueues<int>* taskCommunicationQueues;
 defOUartQueues* uartCommunicationQueues;
-defOUartQueues* uartCommunicationQueues2;
 
 defOMotorsList motors;
 defODriveAlgorithms* motorsAlgorithms;
@@ -123,15 +123,16 @@ int main (void) {
 //			k++;
 //		}
 //	}
-	
+	EventRecorderInitialize (EventRecordAll, 1);
+  osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
 	phyCoord=new defOParamList();
-	phyCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-	phyCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	phyCoord->insert(pair<char, defOParamGeneral*>('X', new defORTX5ParamMutexDecorator(new defOParam("X", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
+	phyCoord->insert(pair<char, defOParamGeneral*>('Y', new defORTX5ParamMutexDecorator(new defOParam("Y", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
 
 	baseCoord=new defOParamList();
-	baseCoord->getParams()->insert(pair<char, defOParam*>('X', new defOParam("X", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
-	baseCoord->getParams()->insert(pair<char, defOParam*>('Y', new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT))));
+	baseCoord->insert(pair<char, defOParamGeneral*>('X', new defORTX5ParamMutexDecorator(new defOParam("X", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
+	baseCoord->insert(pair<char, defOParamGeneral*>('Y', new defORTX5ParamMutexDecorator(new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
 
 
 	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
@@ -140,13 +141,10 @@ int main (void) {
 	
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
-	EventRecorderInitialize (EventRecordAll, 1);
-  osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
 	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
-
 	NVIC_Config();
 	USART_Config();
 	
