@@ -1,6 +1,8 @@
 #include "pp_drive_algorithms.h"
+#include "pp_rtx5_uart_queue.h"
 
-
+ extern defOUartQueues* uartCommunicationQueues;
+ 
 defODriveAlgorithms::defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord):motors(mot), phyCoord(pCoord), baseCoord(bCoord){
 	
 	
@@ -10,39 +12,55 @@ defODriveAlgorithms::defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCo
 
 
 //funkcje związane z przejazdami w pracy ręcznej
-void defODriveAlgorithms::setParToDriveForValue(map<char, int> values){
+void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 
-	phyStartPoint=phyCoord->getParamsValues();
+	phyStartPoint.axes.clear();
+	phyEndPoint.axes.clear();
+	phyVector.axes.clear();
+	
+	phyStartPoint.axes=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
 	
-	for(map<char, int>::iterator it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
+	
+	for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
 		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
-			map<char, int>::iterator values_it=values.find((*it).first);
-			if(values_it!=values.end())phyEndPoint.find((*it).first)->second+=values_it->second;
+			auto values_it=values.find((*it).first);
+			if(values_it!=values.end()){
+				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second);
+			}
+			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
 		}
-		phyVector.find((*it).first)->second=phyEndPoint.find((*it).first)->second-phyStartPoint.find((*it).first)->second;
 	}
 	
-//	drive();
+//	(*uartCommunicationQueues)<<phyStartPoint<<"\r\n";
+//	(*uartCommunicationQueues)<<phyEndPoint<<"\r\n";
+//	(*uartCommunicationQueues)<<phyVector<<"\r\n";
+	
+	drive();
 	
 														
 }
 
-void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> values){
+void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> &values){
 	
+	phyStartPoint.axes.clear();
+	phyEndPoint.axes.clear();
+	phyVector.axes.clear();
 	
-	phyStartPoint=phyCoord->getParamsValues();
+	phyStartPoint.axes=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
 	
-	for(auto it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
+	for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
 		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
 			auto values_it=values.find((*it).first);
-			if(values_it!=values.end())phyEndPoint.find((*it).first)->second+=(values_it->second-baseCoord->getParamValue((*it).first));
+			if(values_it!=values.end()){
+				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second-baseCoord->getParamValue((*it).first));
+			}
+			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
 		}
-		phyVector.find((*it).first)->second=phyEndPoint.find((*it).first)->second-phyStartPoint.find((*it).first)->second;
 	}
 	
-//	drive();
+	drive();
 																			
 }
 

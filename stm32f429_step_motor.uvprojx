@@ -452,6 +452,11 @@
               <FileType>5</FileType>
               <FilePath>.\pp_rtx5_param_mutex_decorator.h</FilePath>
             </File>
+            <File>
+              <FileName>pp_point.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\pp_point.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

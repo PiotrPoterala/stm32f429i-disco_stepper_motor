@@ -10,7 +10,7 @@
  extern defORTX5TaskQueues<int>* taskCommunicationQueues;
  extern defODriveAlgorithms* motorsAlgorithms;
  
- extern defOUartQueues* uartCommunicationQueues;
+ //extern defOUartQueues* uartCommunicationQueues;
  
 osThreadId_t tid_vRealizationFunctionThread;                        // thread id
  
@@ -44,13 +44,8 @@ void vRealizationFunctionThread (void *argument) {
 									map<char, int>values;
 									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
 									
-//									for(auto it=values.begin(); it!=values.end(); it++){
-//										string str;
-//										str+=(*it).first;
-//										str+=" ";
-//										str+=to_string((*it).second);
-//									(*uartCommunicationQueues)<<str<<"\r\n";
-//									}
+//(*uartCommunicationQueues)<<values<<"\r\n";
+									
 									motorsAlgorithms->setParToDriveForValue(values);
 									motorsAlgorithms->drive();
 									

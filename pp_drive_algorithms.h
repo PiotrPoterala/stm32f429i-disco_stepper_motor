@@ -5,6 +5,7 @@
 #include "pp_stepper_motor_driver.h"
 #include "pp_paramlist.h"
 #include "pp_motorslist.h"
+#include "pp_point.h"
 
 //	#define NR_OF_FEEDRATE 					2
 
@@ -192,20 +193,19 @@
 			defOMotorsList *motors;
 			defOParamList *phyCoord;
 			defOParamList *baseCoord;
-			map<char,int> phyStartPoint;
-			map<char,int> phyEndPoint;
-			map<char,int> phyIndirectPoint;
-			map<char,int> phyVector;
+			PPpoint<char, int> phyStartPoint;
+			PPpoint<char, int> phyEndPoint;
+			PPpoint<char, int> phyIndirectPoint;
+			PPpoint<char, int> phyVector;
 		
 		public:
 			int driveStatus;
 		
-		
 			defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
 		
 		
-			void setParToDriveForValue(map<char, int> values);
-			void setParToDriveToBaseCoordinates(map<char, int> values);		
+			void setParToDriveForValue(map<char, int> &values);
+			void setParToDriveToBaseCoordinates(map<char, int> &values);		
 		
 			virtual int drive(void)=0;
 		

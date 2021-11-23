@@ -9,32 +9,35 @@ int defORTX5driveAlgorithms::drive(){
 
 
 		driveStatus=DRIVE_IN_PROGRESS;
+		phyIndirectPoint.axes.clear();
 		phyIndirectPoint=phyEndPoint;
 	
 		motors->clearCounters();
 	
 		while(driveStatus!=DRIVE_COMPLETED && driveStatus!=DRIVE_ABORTED){		
 
-			for(map<char, int>::iterator it=phyStartPoint.begin(); it != phyStartPoint.end(); ++it){
+			for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
 				
-//				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
-//					if(motors->getMotor((*it).first)->counter>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParam((*it).first)->getValue()-(*it).second)/phyCoord->getParam((*it).first)->getPrecision(), 
-//																																														abs(phyEndPoint.find((*it).second)->second-phyCoord->getParam((*it).first)->getValue())/phyCoord->getParam((*it).first)->getPrecision(), motors->getMotor((*it).first)->accelerationMMperSEC2, 
-//																																														motors->getMotor((*it).first)->velocityUMperSEC->getValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParam((*it).first)->getPrecision())){
-//	
+				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
+					if(motors->getMotor((*it).first)->counter>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParam((*it).first)->getValue()-(*it).second)/phyCoord->getParam((*it).first)->getPrecision(), 
+																																														abs(phyEndPoint.find((*it).second)->second-phyCoord->getParam((*it).first)->getValue())/phyCoord->getParam((*it).first)->getPrecision(), motors->getMotor((*it).first)->accelerationMMperSEC2, 
+																																														motors->getMotor((*it).first)->velocityUMperSEC->getValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParam((*it).first)->getPrecision())){
+	
 
-//						if(phyVector.find((*it).first)->second>0){
-//							motors->getMotor((*it).first)->rotateForward();
-//						}else if(phyVector.find((*it).first)->second<0){
-//							motors->getMotor((*it).first)->rotateBackwards();
-//						}
-//						motors->getMotor((*it).first)->counter=1;
-//					}else{
-//						motors->getMotor((*it).first)->counter++;
-//					}
-//				}
+						if(phyVector.axes.find((*it).first)->second>0){
+							motors->getMotor((*it).first)->rotateForward();
+						}else if(phyVector.axes.find((*it).first)->second<0){
+							motors->getMotor((*it).first)->rotateBackwards();
+						}
+						motors->getMotor((*it).first)->counter=1;
+					}else{
+						motors->getMotor((*it).first)->counter++;
+					}
+				}
 				
 			}
+
+			if(phyEndPoint==phyCoord->getParamsValues())driveStatus=DRIVE_COMPLETED;
 
 
 //			if(xQueueReceive(qToDoMark, &oButtonMarks.toDoMark.mark, 0)){

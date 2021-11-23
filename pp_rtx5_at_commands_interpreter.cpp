@@ -37,7 +37,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					
 					taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
-					answer="OK";
+					answer="OK\r\n";
 				};
 		 }else if(data.find("AT+TRVCO")!=string::npos){
 				map<char, double> values;
@@ -59,7 +59,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					
 					
 					taskCommunicationQueues->xQueueSendConteinerToBackWithSemaphore(valuesToSend);
-					answer="OK";
+					answer="OK\r\n";
 				};
 		 }else if(data.find("AT+BASEC")!=string::npos){
 				index=data.find("AT+BASEC");
