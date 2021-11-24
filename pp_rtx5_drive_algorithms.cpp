@@ -1,8 +1,10 @@
 #include "pp_rtx5_drive_algorithms.h"
-
+#include "pp_rtx5_uart_queue.h"
+ extern defOUartQueues* uartCommunicationQueues;
 
 int defORTX5driveAlgorithms::drive(){
 	int tick;
+	string str;
 	
 	tick = osKernelGetTickCount(); 
 
@@ -19,19 +21,23 @@ int defORTX5driveAlgorithms::drive(){
 			for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
 				
 				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
-					if(motors->getMotor((*it).first)->counter>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParam((*it).first)->getValue()-(*it).second)/phyCoord->getParam((*it).first)->getPrecision(), 
-																																														abs(phyEndPoint.find((*it).second)->second-phyCoord->getParam((*it).first)->getValue())/phyCoord->getParam((*it).first)->getPrecision(), motors->getMotor((*it).first)->accelerationMMperSEC2, 
-																																														motors->getMotor((*it).first)->velocityUMperSEC->getValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParam((*it).first)->getPrecision())){
-	
-
-						if(phyVector.axes.find((*it).first)->second>0){
-							motors->getMotor((*it).first)->rotateForward();
-						}else if(phyVector.axes.find((*it).first)->second<0){
-							motors->getMotor((*it).first)->rotateBackwards();
+					auto cnt_it=counter.find((*it).first);
+					if(cnt_it!=counter.end()){
+						if(cnt_it->second>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParamValue((*it).first)-(*it).second)/phyCoord->getParamPrecision((*it).first), 
+																																			abs(phyEndPoint.axes.find((*it).second)->second-phyCoord->getParamValue((*it).first))/phyCoord->getParamPrecision((*it).first), motors->getMotor((*it).first)->getAccelerationMMperSEC2Value(), 
+																																			motors->getMotor((*it).first)->getVelocityUMperSECValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParamPrecision((*it).first))){
+		
+//					str=to_string((*cnt_it).second);
+//(*uartCommunicationQueues)<<str<<"\r\n";
+							if(phyVector.axes.find((*it).first)->second>0){
+								motors->getMotor((*it).first)->rotateForward();
+							}else if(phyVector.axes.find((*it).first)->second<0){
+								motors->getMotor((*it).first)->rotateBackwards();
+							}
+							(*cnt_it).second=1;
+						}else{
+							(*cnt_it).second++;
 						}
-						motors->getMotor((*it).first)->counter=1;
-					}else{
-						motors->getMotor((*it).first)->counter++;
 					}
 				}
 				

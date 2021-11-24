@@ -39,6 +39,9 @@
 #define VELOCITY_PRECISION_uM_PER_SEC 1				
 #define VELOCITY_UNIT 1
 
+#define ACCELERATION_PRECISION_uM_PER_SEC2 1				
+#define ACCELERATION_UNIT 1
+
 extern int Init_vSecondThread (osPriority_t priority);
 extern int Init_vCheckInputSignalsThread (osPriority_t priority); 
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
@@ -137,7 +140,8 @@ int main (void) {
 
 	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
 																(new defOControlCoordinateDecorator
-																	(new defOStepperMotor2clockDriver(2, new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
+																	(new defOStepperMotor2clockDriver(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+																		new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
 	
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 

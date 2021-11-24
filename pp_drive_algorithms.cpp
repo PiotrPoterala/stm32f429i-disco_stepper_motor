@@ -1,7 +1,7 @@
 #include "pp_drive_algorithms.h"
 #include "pp_rtx5_uart_queue.h"
 
- extern defOUartQueues* uartCommunicationQueues;
+// extern defOUartQueues* uartCommunicationQueues;
  
 defODriveAlgorithms::defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord):motors(mot), phyCoord(pCoord), baseCoord(bCoord){
 	
@@ -17,6 +17,7 @@ void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 	phyStartPoint.axes.clear();
 	phyEndPoint.axes.clear();
 	phyVector.axes.clear();
+	counter.clear();
 	
 	phyStartPoint.axes=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
@@ -29,6 +30,7 @@ void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second);
 			}
 			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
+			counter.insert(pair<char, int>((*it).first, 0));
 		}
 	}
 	
@@ -46,6 +48,7 @@ void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> &values)
 	phyStartPoint.axes.clear();
 	phyEndPoint.axes.clear();
 	phyVector.axes.clear();
+	counter.clear();
 	
 	phyStartPoint.axes=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
@@ -57,6 +60,7 @@ void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> &values)
 				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second-baseCoord->getParamValue((*it).first));
 			}
 			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
+			counter.insert(pair<char, int>((*it).first, 0));
 		}
 	}
 	

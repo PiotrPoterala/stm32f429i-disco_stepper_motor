@@ -198,6 +198,9 @@
 			PPpoint<char, int> phyIndirectPoint;
 			PPpoint<char, int> phyVector;
 		
+			map<char, int> counter;
+
+		
 		public:
 			int driveStatus;
 		
