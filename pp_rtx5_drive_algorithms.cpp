@@ -1,6 +1,7 @@
 #include "pp_rtx5_drive_algorithms.h"
 #include "pp_rtx5_uart_queue.h"
- extern defOUartQueues* uartCommunicationQueues;
+#include "RTX_Config.h"
+ //extern defOUartQueues* uartCommunicationQueues;
 
 int defORTX5driveAlgorithms::drive(){
 	int tick;
@@ -23,12 +24,16 @@ int defORTX5driveAlgorithms::drive(){
 				if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
 					auto cnt_it=counter.find((*it).first);
 					if(cnt_it!=counter.end()){
+
 						if(cnt_it->second>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParamValue((*it).first)-(*it).second)/phyCoord->getParamPrecision((*it).first), 
-																																			abs(phyEndPoint.axes.find((*it).second)->second-phyCoord->getParamValue((*it).first))/phyCoord->getParamPrecision((*it).first), motors->getMotor((*it).first)->getAccelerationMMperSEC2Value(), 
-																																			motors->getMotor((*it).first)->getVelocityUMperSECValue(), BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParamPrecision((*it).first))){
-		
+																																			abs(phyEndPoint.axes.find((*it).first)->second-phyCoord->getParamValue((*it).first))/phyCoord->getParamPrecision((*it).first), 
+																																			motors->getMotor((*it).first)->getAccelerationMMperSEC2Value(), 
+																																			motors->getMotor((*it).first)->getVelocityUMperSECValue(), 
+																																			BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParamPrecision((*it).first))){
+																													
 //					str=to_string((*cnt_it).second);
-//(*uartCommunicationQueues)<<str<<"\r\n";
+//						(*uartCommunicationQueues)<<str<<"\r\n";
+																																				
 							if(phyVector.axes.find((*it).first)->second>0){
 								motors->getMotor((*it).first)->rotateForward();
 							}else if(phyVector.axes.find((*it).first)->second<0){
@@ -67,7 +72,7 @@ int defORTX5driveAlgorithms::drive(){
 //				taskCount=xTaskGetTickCount();
 //			}
 			
-  		tick += 10000/BASE_FREQUENCY_OF_TIMdrive;    
+  		tick += OS_TICK_FREQ /BASE_FREQUENCY_OF_TIMdrive;    
 			osDelayUntil(tick);
 		}
 		

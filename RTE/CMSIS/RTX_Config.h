@@ -51,7 +51,7 @@
 //   <i> Defines base time unit for delays and timeouts.
 //   <i> Default: 1000 (1ms tick)
 #ifndef OS_TICK_FREQ
-#define OS_TICK_FREQ                10000
+#define OS_TICK_FREQ                50000
 #endif
  
 //   <e>Round-Robin Thread switching
@@ -124,7 +124,7 @@
 //   <i> Defines stack size for threads with zero stack size specified.
 //   <i> Default: 256
 #ifndef OS_STACK_SIZE
-#define OS_STACK_SIZE               2048
+#define OS_STACK_SIZE               1024
 #endif
  
 //   <o>Idle Thread Stack size [bytes] <72-1073741824:8>

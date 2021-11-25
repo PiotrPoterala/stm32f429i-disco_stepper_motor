@@ -16,8 +16,16 @@ void vReceiveAndInterpretDataFromComUartThread (void *argument);                
 osThreadId_t tid_vReceiveAndInterpretDataFromComUartThread;                                          // thread id
 
 int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority) {
-
-  tid_vReceiveAndInterpretDataFromComUartThread = osThreadNew(vReceiveAndInterpretDataFromComUartThread, NULL, NULL);
+	
+	const osThreadAttr_t thread_attr = {
+		.stack_size = 2048, 	
+		.priority = priority	
+	};
+	
+	
+  tid_vReceiveAndInterpretDataFromComUartThread = osThreadNew(vReceiveAndInterpretDataFromComUartThread, NULL, &thread_attr);
+	
+	
 	osThreadSetPriority (tid_vReceiveAndInterpretDataFromComUartThread, priority);
   if (!tid_vReceiveAndInterpretDataFromComUartThread) return(-1);
   

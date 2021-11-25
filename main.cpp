@@ -28,7 +28,8 @@
 #include "pp_rtx5_at_commands_interpreter.h"
 #include "pp_rtx5_param_mutex_decorator.h"
 
-#define COORD_PRECISION_MM 0.001250				//w rzeczywistości 0,001250
+//#define COORD_PRECISION_MM 0.001250	
+#define COORD_PRECISION_MM 0.005
 #define COORD_UNIT 6	
 
 #define MIN_PHY_COORD_MM		0
@@ -140,9 +141,13 @@ int main (void) {
 
 	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
 																(new defOControlCoordinateDecorator
-																	(new defOStepperMotor2clockDriver(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-																		new defOParam("velocity", 5, 5, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin13, Pin12}, GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}));
+																	(new defOStepperMotor2clockDriver
+																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+																			new defOParam("velocity", 3125, 3125, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), 
+																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin4, Pin7}));
 	
+																		//			GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}
+																					
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
 	

@@ -1,8 +1,11 @@
 #include "cmsis_os2.h"                          // CMSIS RTOS header file
  #include "input_signals.h"
+ #include "RTX_Config.h"
 /*----------------------------------------------------------------------------
  *      Thread 1 'Thread_Name': Sample thread
  *---------------------------------------------------------------------------*/
+ 
+ #define FREQUENCY_OF_SECOND_THREAD	1
  
 osThreadId_t tid_vSecondThread;                        // thread id
  
@@ -23,6 +26,6 @@ void vSecondThread (void *argument) {
  
   while (1) {
     PIN_TOG(PORT_LED, LED1);  
-    osDelay(10000);  
+    osDelay(OS_TICK_FREQ/FREQUENCY_OF_SECOND_THREAD);  
   }
 }

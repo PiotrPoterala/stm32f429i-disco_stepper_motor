@@ -1,13 +1,14 @@
 
 #include "cmsis_os2.h"                                           // CMSIS RTOS header file
-
-//#include "input_signals_analysis.h"
+ #include "RTX_Config.h"
 #include "input_signals.h"
 #include "pp_rtos_uart_queue.h"
 
 #include <string>
 
-extern defOUartQueues* uartCommunicationQueues;
+ #define FREQUENCY_OF_CHECKINPUTS_THREAD	2
+
+//extern defOUartQueues* uartCommunicationQueues;
 //extern defOCheckSignals oCheckSignalsLimitedStop;
 
 /*----------------------------------------------------------------------------
@@ -27,37 +28,15 @@ int Init_vCheckInputSignalsThread (osPriority_t priority) {
 }
 
 void vCheckInputSignalsThread (void *argument) {
-	uint32_t tick;
-//	string test="start";
+	int tick;
 	
 	tick = osKernelGetTickCount(); 
 	
   while (1) {
-			//sprawdzenie krańcówek
-		PIN_TOG(PORT_LED, LED2); 
+			PIN_TOG(PORT_LED, LED2); 
 		
 		
-	//	*uartCommunicationQueues<<test<<"\r\n";
-		
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xplus, kKRAN_Xplus);
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Xmin, kKRAN_Xmin);
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Yplus, kKRAN_Yplus);
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Ymin, kKRAN_Ymin);
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Zplus, kKRAN_Zplus);
-//			oCheckSignalsLimitedStop.checkSignal(PORT_LIM_STOP, PIN_KRAN_Zmin, kKRAN_Zmin);
-
-
-//			oCheckSignalsLimitedStop.checkSignal(GPIOC, PC13, 1);
-//		
-//			if((oCheckSignalsLimitedStop.checkedResetSignals & 1) && !(oCheckSignalsLimitedStop.madeSignals & 1)){
-//				oCheckSignalsLimitedStop.madeSignals |=1;
-//				PIN_SET(GPIOB, LED2);
-//			}else if((oCheckSignalsLimitedStop.checkedSetSignals & 1) && (oCheckSignalsLimitedStop.madeSignals & 1)){
-//				PIN_CLR(GPIOB, LED2);
-//				oCheckSignalsLimitedStop.madeSignals &=~1;
-//			}
-		
-  		tick += 5000;    
+  		tick += OS_TICK_FREQ/FREQUENCY_OF_CHECKINPUTS_THREAD;    
 			osDelayUntil(tick);
 			
   }
