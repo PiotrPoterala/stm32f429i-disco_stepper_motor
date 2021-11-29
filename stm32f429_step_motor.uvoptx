@@ -175,6 +175,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>accelerateNumberOfSteps</ItemText>
         </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>inputsPins</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>portMask</ItemText>
+        </Ww>
       </WatchWindow1>
       <ScvdPack>
         <Filename>C:\Users\poter\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\RTX\RTX5.scvd</Filename>

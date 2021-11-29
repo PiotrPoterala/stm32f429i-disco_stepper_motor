@@ -143,14 +143,16 @@ int main (void) {
 																(new defOControlCoordinateDecorator
 																	(new defOStepperMotor2clockDriver
 																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-																			new defOParam("velocity", 3125, 3125, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 3125), 
-																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), GPIOB, new array<int, 2>{Pin4, Pin7}));
+																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
+																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+																				new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7},
+																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
+																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}));
 	
 																		//			GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}
-																					
+													
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
-	
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
 	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
@@ -158,10 +160,10 @@ int main (void) {
 	USART_Config();
 	
 
-	Init_vSecondThread(osPriorityHigh); 
-	Init_vRealizationFunctionThread(osPriorityBelowNormal);  
-	Init_vCheckInputSignalsThread (osPriorityNormal);
-	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityLow); 
+	Init_vSecondThread(osPriorityLow);  
+	Init_vCheckInputSignalsThread (osPriorityBelowNormal);
+	Init_vRealizationFunctionThread(osPriorityNormal);  
+	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
 	
 	
   osKernelStart();                      // Start thread execution
