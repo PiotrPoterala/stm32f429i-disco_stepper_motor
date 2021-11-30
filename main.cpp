@@ -19,7 +19,9 @@
 #include "pp_stepper_motor_driver.h"
 #include "pp_control_coordinate_decorator.h"
 #include "pp_stepper_motor_2clock_driver.h"
+#include "pp_stepper_motor_dir_clock_driver.h"
 #include "pp_control_2clock_signals_decorator.h"
+#include "pp_rtx5_control_dir_clock_signals_decorator.h"
 
 #include "pp_rtos_uart_queue_decorator.h"
 #include "pp_rtx5_uart_queue.h"
@@ -44,7 +46,6 @@
 #define ACCELERATION_UNIT 1
 
 extern int Init_vSecondThread (osPriority_t priority);
-extern int Init_vCheckInputSignalsThread (osPriority_t priority); 
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
 extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority); 
 
@@ -139,17 +140,25 @@ int main (void) {
 	baseCoord->insert(pair<char, defOParamGeneral*>('Y', new defORTX5ParamMutexDecorator(new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
 
 
-	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
-																(new defOControlCoordinateDecorator
-																	(new defOStepperMotor2clockDriver
-																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
-																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
-																				new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7},
-																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
-																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}));
-	
-																		//			GPIOD, new array<int, 8>{Pin11, Pin10, Pin9, Pin8, Pin12, Pin13, Pin14, Pin15}
+//	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
+//																(new defOControlCoordinateDecorator
+//																	(new defOStepperMotor2clockDriver
+//																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+//																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
+//																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+//																				new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7},
+//																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
+//																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}));
+//	
+//																												
+																												
+	motors.getMotors()->push_back(new defORTX5ControlDirClockSignalsDecorator
+													(new defOControlCoordinateDecorator
+														(new defOStepperMotorDirClockDriver
+															(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+																new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500)), 
+																	phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+																	new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7}}));																									
 													
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
@@ -160,8 +169,7 @@ int main (void) {
 	USART_Config();
 	
 
-	Init_vSecondThread(osPriorityLow);  
-	Init_vCheckInputSignalsThread (osPriorityBelowNormal);
+	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  
 	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
 	

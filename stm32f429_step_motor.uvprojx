@@ -463,11 +463,6 @@
           <GroupName>threads</GroupName>
           <Files>
             <File>
-              <FileName>vCheckInputSignalsThread.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\threads\vCheckInputSignalsThread.cpp</FilePath>
-            </File>
-            <File>
               <FileName>vSecondThread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\threads\vSecondThread.cpp</FilePath>
@@ -526,6 +521,16 @@
               <FileName>pp_stepper_motor_driver_decorator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_driver_decorator.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_stepper_motor_dir_clock_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_stepper_motor_dir_clock_driver.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_control_dir_clock_signals_decorator.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_rtx5_control_dir_clock_signals_decorator.cpp</FilePath>
             </File>
           </Files>
         </Group>

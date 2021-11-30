@@ -39,15 +39,6 @@ string receiveString;
   while (1) {
 		
 			uartCommunicationQueues->getStringFromReceiveQueue();    
-//			if(osMessageQueueGet(receiveQueue, &receiveChar, NULL, osWaitForever) == osOK){
-
-//				receiveString+=receiveChar; 
-
-//				if(receiveString.size()>64){
-//						receiveString.clear();
-//					
-//				}
-
-//			} 		
+		
   }
 }

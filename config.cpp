@@ -29,7 +29,7 @@ void RCC_Config(void){
     while(!(PWR->CSR & PWR_CSR_ODRDY));
     PWR->CR |= PWR_CR_ODSWEN;
     while(!(PWR->CSR & PWR_CSR_ODSWRDY));    
-    /* Configure Flash prefetch, Instruction cache, Data cache and wait state */
+
     FLASH->ACR = FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN | FLASH_ACR_LATENCY_5WS;
 
 		RCC->CFGR=(RCC->CFGR & ~RCC_CFGR_SW) | RCC_CFGR_SW_PLL;
@@ -46,8 +46,7 @@ void RCC_Config(void){
 //odblokowanie taktowania dla niezbędnych peryferiów
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
-		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
-//		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;	
+		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;	
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;	
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
 		

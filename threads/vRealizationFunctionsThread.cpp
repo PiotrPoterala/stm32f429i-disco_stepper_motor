@@ -10,7 +10,6 @@
  extern defORTX5TaskQueues<int>* taskCommunicationQueues;
  extern defODriveAlgorithms* motorsAlgorithms;
  
- //extern defOUartQueues* uartCommunicationQueues;
  
 osThreadId_t tid_vRealizationFunctionThread;                        // thread id
  
@@ -44,8 +43,6 @@ void vRealizationFunctionThread (void *argument) {
 									map<char, int>values;
 									taskCommunicationQueues->xQueueReceiveMap(values, receiveData, osWaitForever);
 									
-//(*uartCommunicationQueues)<<values<<"\r\n";
-									
 									motorsAlgorithms->setParToDriveForValue(values);
 									motorsAlgorithms->drive();
 									
@@ -68,93 +65,8 @@ void vRealizationFunctionThread (void *argument) {
 						
 					}
 					
-				}
-//				
-//				oButtonMarks.decodeToDoMark(mark);
-//				
-//				
-//				////PRACA RĘCZNA 
-//	//przejazd o wartosc
-//		if(oMenu.menuParam.menu==O_WARTOSC){	
-//			SCoordinates aCoord;
-//			uint8_t ans=0;
-
-//			aCoord=oCoordinates.getCoordWithSemaphore(&oCoordinates.auxCoord, oCoordinates.xAuxCoord);
-//			ans=oDataInput.axisSelectEntryField(&aCoord, qToDoMark, oDataInput.entryFieldsList[0], &oButtonMarks, &oScreen.windows[mainWINDOW].markEntryField);
-
-//			if(ans==WPISANO_LICZBE){
-//				oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);					
-//			}else if(oButtonMarks.tag==TAG_MENU_PODR_1 || oButtonMarks.key==KEY_F1 || oButtonMarks.atc==AT_TAG_TRVV){
-//				
-//			
-//				
-//				
-//				
-//				xSemaphoreTake(xDrive, portMAX_DELAY);
-//				{	
-//					oMenu.setPopupMenu(&oMenu.menuParam, MENU_STOP, oLanguage.itemsParam.item);
-//					oScreen.windows[mainWINDOW].basicInfo.itemsParam.item=LACK_ofIdBASIC_INFO;
-//					oScreen.windows[mainWINDOW].idScreen=idDRIVE_SCREEN;
-//					oDrive.driveForValue(&oCoordinates, &oCheckSignalsLimitedStop, &oDrive.driveParam, &oDrive.infoDrive, &oMenu, oLanguage.itemsParam.item, qToDoMark, &oDrive.feedrate->feedJog);
-
-//					oDrive.circuitIgnorance=true;
-//					oCoordinates.clearCoord(&oCoordinates.auxCoord);
-//					oMenu.setPopupMenu(&oMenu.menuParam, MENU_GO, oLanguage.itemsParam.item);
-//					oScreen.windows[mainWINDOW].idScreen=idINPUT_SCREEN;
-//					oDrive.infoDrive=PRZEJ_ZREALIZOWANO;
-//				}
-//				xSemaphoreGive(xDrive);
-//			}else if(ans==NIE_OZN_WSP_DO_WPISU){
-//				oMenu.escMenu(&oMenu.menuParam, ESC_COND, &oScreen.windows[mainWINDOW].highlightedY, &oScreen.windows[mainWINDOW].highlightedX, oLanguage.itemsParam.item);
-//			}
-//			
-//		}	
-				
-//				if(oMenu.menuParam.menu==WSPOLRZEDNE_BAZY){	
-//					SCoordinates aCoord;
-//					uint8_t ans=0;
-//					aCoord=oCoordinates.getCoordWithSemaphore(&oCoordinates.auxCoord, oCoordinates.xAuxCoord);
-
-//					ans=oDataInput.axisSelectEntryField(&aCoord, qToDoMark, oDataInput.entryFieldsList[0], &oButtonMarks, &oScreen.windows[mainWINDOW].markEntryField);
-
-//					if(ans==WPISANO_LICZBE){
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);					
-//					}else if(oButtonMarks.tag==TAG_MENU_PODR_1 || oButtonMarks.toDoMark.key==KEY_F1 || oButtonMarks.toDoMark.atc==AT_TAG_BASEC){
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.baseCoord, aCoord, oCoordinates.xBaseCoord);		
-//						oMenu.escMenu(&oMenu.menuParam, true, &oScreen.windows[mainWINDOW].highlightedY, &oScreen.windows[mainWINDOW].highlightedX, oLanguage.itemsParam.item);
-//					}else if(oButtonMarks.toDoMark.tag==TAG_MENU_PODR_2 || oButtonMarks.toDoMark.key==KEY_F2){
-//						oCoordinates.clearCoord(&aCoord);
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);
-//					}else if(ans==NIE_OZN_WSP_DO_WPISU){
-//						oMenu.escMenu(&oMenu.menuParam, ESC_COND, &oScreen.windows[mainWINDOW].highlightedY, &oScreen.windows[mainWINDOW].highlightedX, oLanguage.itemsParam.item);
-//					}
-
-//				}		
-
-//			//ustawienie współrzędnych fizycznych				
-//				else if(oMenu.menuParam.menu==WSPOLRZEDNE_FIZYCZNE){	
-//					SCoordinates aCoord;
-//					uint8_t ans=0;
-//					aCoord=oCoordinates.getCoordWithSemaphore(&oCoordinates.auxCoord, oCoordinates.xAuxCoord);
-
-//					ans=oDataInput.axisSelectEntryField(&aCoord, qToDoMark, oDataInput.entryFieldsList[0], &oButtonMarks, &oScreen.windows[mainWINDOW].markEntryField);
-
-//					if(ans==WPISANO_LICZBE){
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);					
-//					}else if(oButtonMarks.toDoMark.tag==TAG_MENU_PODR_1 || oButtonMarks.toDoMark.key==KEY_F1 || oButtonMarks.toDoMark.atc==AT_TAG_PHYC){
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.phyCoord, aCoord, oCoordinates.xPhyCoord);		
-//						oMenu.escMenu(&oMenu.menuParam, true, &oScreen.windows[mainWINDOW].highlightedY, &oScreen.windows[mainWINDOW].highlightedX, oLanguage.itemsParam.item);
-//					}else if(oButtonMarks.toDoMark.tag==TAG_MENU_PODR_2 || oButtonMarks.toDoMark.key==KEY_F2){
-//						oCoordinates.setCoordByValue(&aCoord, 100);
-//						oCoordinates.setCoordWithSemaphore(&oCoordinates.auxCoord, aCoord, oCoordinates.xAuxCoord);
-//					}else if(ans==NIE_OZN_WSP_DO_WPISU){
-//						oMenu.escMenu(&oMenu.menuParam, ESC_COND, &oScreen.windows[mainWINDOW].highlightedY, &oScreen.windows[mainWINDOW].highlightedX, oLanguage.itemsParam.item);
-//			
-//				}
-
-//			}
-				
-				
+				}			
+	
 		}
   }
 }
