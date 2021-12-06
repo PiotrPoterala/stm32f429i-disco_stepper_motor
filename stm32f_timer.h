@@ -1,6 +1,4 @@
 /**
- * Keil project for stepper motor driver
- 
  * @author  Piotr Poterała
  * @email   poterala.piotr@gmail.com
  * @website http://zappp.pl
@@ -10,7 +8,7 @@
  *	
 @verbatim
    ----------------------------------------------------------------------
-    Copyright (C) Piotr Poterała, 2021c
+    Copyright (C) Piotr Poterała, 2021
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,24 +26,14 @@
 @endverbatim
  */
 
+#ifndef __STM32Fx_TIMER_H
+#define __STM32Fx_TIMER_H
+
+#include "stm32f4xx.h"
 
 
-#ifndef _INPUT_SIGNALS_H
-	#define _INPUT_SIGNALS_H
-
-	#include "def_pins.h"
-
-	#include "stm32xx.h"
+void motorXClearClockSignal(void *arg);
+void motorXChangeSelectCurrentSignal(void *arg);
 
 
-//diody led
-	#define  PORT_LED GPIOG 
-	#define  LED1 PG13 
-	#define  LED2 PG14 
-	
-	
-
-
-
-
-#endif
+#endif 

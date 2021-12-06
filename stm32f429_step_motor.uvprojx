@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -328,7 +328,7 @@
             <uGnu>1</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
+            <v6LangP>6</v6LangP>
             <vShortEn>0</vShortEn>
             <vShortWch>0</vShortWch>
             <v6Lto>0</v6Lto>
@@ -457,6 +457,11 @@
               <FileType>5</FileType>
               <FilePath>.\pp_point.h</FilePath>
             </File>
+            <File>
+              <FileName>stm32f_timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\stm32f_timer.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -532,6 +537,11 @@
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_rtx5_control_dir_clock_signals_decorator.cpp</FilePath>
             </File>
+            <File>
+              <FileName>pp_rtx5_select_current_decorator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_rtx5_select_current_decorator.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -597,11 +607,7 @@
       <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" Cversion="1.4.0" condition="Cortex-M Device">
         <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
         <targetInfos>
-          <targetInfo name="Target 1">
-            <mem>
-              <RVCTZI>5</RVCTZI>
-            </mem>
-          </targetInfo>
+          <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.6.2" condition="STM32F4 CMSIS">

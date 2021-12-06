@@ -1,8 +1,26 @@
+/**	
+ * |----------------------------------------------------------------------
+ * | Copyright (C) Piotr Poterała, 2021
+ * | 
+ * | This program is free software: you can redistribute it and/or modify
+ * | it under the terms of the GNU General Public License as published by
+ * | the Free Software Foundation, either version 3 of the License, or
+ * | any later version.
+ * |  
+ * | This program is distributed in the hope that it will be useful,
+ * | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * | GNU General Public License for more details.
+ * | 
+ * | You should have received a copy of the GNU General Public License
+ * | along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * |----------------------------------------------------------------------
+ */
+
 #include "config.h"
 #include "input_signals.h"
 #include "def_pins.h"
 
-//konfigurowanie sygnalow taktujacych
 void RCC_Config(void){
 
 		SystemInit();
@@ -43,10 +61,10 @@ void RCC_Config(void){
   
 		SystemCoreClockUpdate();
 		
-//odblokowanie taktowania dla niezbędnych peryferiów
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;	
+		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;	
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
 		
@@ -55,8 +73,7 @@ void RCC_Config(void){
 
 void NVIC_Config(void)
 {   
-		NVIC_SetPriorityGrouping(NVIC_PriGroup_4); //16 priorytetów preemption, brak subpriorytetów 
-
+		NVIC_SetPriorityGrouping(NVIC_PriGroup_4); 
 
 		NVIC_SetPriority(USART1_IRQn, 1);  	
 		NVIC_EnableIRQ(USART1_IRQn);
@@ -65,24 +82,24 @@ void NVIC_Config(void)
 
 void GPIO_Config(void)
 {
-//konfiguracja portu A
+//port A
 	ALT_SET_REG(GPIOA, Pin9, IO_OUT_HS);
 	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xF<<((Pin9-8)*4))) | (GPIO_AFR_AF7<<((Pin9-8)*4)); //USART1 TX
 	ALT_SET_REG(GPIOA, Pin10, IO_OUT_HS);
 	GPIOA->AFR[1]=(GPIOA->AFR[1] & ~(0xF<<((Pin10-8)*4))) | (GPIO_AFR_AF7<<((Pin10-8)*4));	//USART1 RX
 	
-	//konfiguracja portu B
-	OUT_SET_REG(GPIOB, Pin4, IO_PP, IO_OUT_HS);
-	OUT_SET_REG(GPIOB, Pin7, IO_PP, IO_OUT_HS);
-	
-	
-////konfiguracja portu C
+//port C
 	OUT_SET_REG(GPIOC, Pin11, IO_PP, IO_OUT_HS);
 	OUT_SET_REG(GPIOC, Pin12, IO_PP, IO_OUT_HS);
 	OUT_SET_REG(GPIOC, Pin13, IO_PP, IO_OUT_HS);
 
+//port D
+	OUT_SET_REG(GPIOD, Pin2, IO_PP, IO_OUT_HS);
+	OUT_SET_REG(GPIOD, Pin4, IO_PP, IO_OUT_HS);
+	OUT_SET_REG(GPIOD, Pin5, IO_PP, IO_OUT_HS);
+	OUT_SET_REG(GPIOD, Pin7, IO_OD, IO_OUT_HS);
 
-////konfiguracja portu E	
+//port E	
 	OUT_SET_REG(GPIOE, Pin2, IO_PP, IO_OUT_HS);
 	OUT_SET_REG(GPIOE, Pin3, IO_PP, IO_OUT_HS);
 	OUT_SET_REG(GPIOE, Pin4, IO_PP, IO_OUT_HS);
@@ -90,7 +107,7 @@ void GPIO_Config(void)
 	OUT_SET_REG(GPIOE, Pin6, IO_PP, IO_OUT_HS);
 
 
-//konfiguracja portu G	
+//port G	
 	OUT_SET_REG(GPIOG, Pin13, IO_PP, IO_OUT_HS);	//LED1
 	OUT_SET_REG(GPIOG, Pin14, IO_PP, IO_OUT_HS);	//LED2
 	
@@ -106,12 +123,12 @@ void USART_Config(void){
 	double divider = 0x00;
 	
 	USART1->CR1&=~USART_CR1_PCE;		//wyłączenie parzystości		
-	USART1->CR1&=~USART_CR1_M;			//8 bitów danych (możliwe 8 lub 9 bitów danych)
-	USART1->CR2=(USART1->CR2 & USART_BSTOP_CLR) | USART_BSTOP_1;			//1 bit stopu
+	USART1->CR1&=~USART_CR1_M;			//8 data bits
+	USART1->CR2=(USART1->CR2 & USART_BSTOP_CLR) | USART_BSTOP_1;			//1 stop bit
 
-	USART1->CR1&=~USART_CR1_OVER8; //próbkowanie typ 16 (potrzebne do przeliczenia baud rate)
+	USART1->CR1&=~USART_CR1_OVER8; //oversampling=16 
 
-  divider = ((double)90000000 / (16*9600));		//zgodnie za wzorem z manual'a PLCK1/(16*BAUD) dla oversampling=16    
+  divider = ((double)90000000 / (16*9600));		//PLCK1/(16*BAUD) for oversampling=16    
   USART1->BRR |= (uint16_t)divider << 4;
   USART1->BRR |= (uint16_t)((divider-(uint16_t)divider)*16);
 

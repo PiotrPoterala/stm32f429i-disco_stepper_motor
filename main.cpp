@@ -1,6 +1,32 @@
-/*----------------------------------------------------------------------------
- * CMSIS-RTOS 'main' function template
- *---------------------------------------------------------------------------*/
+/**
+ * Keil project for stepper motor driver
+ 
+ * @author  Piotr Poterała
+ * @email   poterala.piotr@gmail.com
+ * @website http://zappp.pl
+ * @version v1.0
+ * @ide     Keil uVision 5
+ * @license GNU GPL v3
+ *	
+@verbatim
+   ----------------------------------------------------------------------
+    Copyright (C) Piotr Poterała, 2021
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+     
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   ----------------------------------------------------------------------
+@endverbatim
+ */
  
 #include "RTE_Components.h"
 #include  CMSIS_device_header
@@ -13,6 +39,7 @@
  
 #include "config.h"
 #include "def_pins.h"
+#include "stm32f_timer.h"
 #include "pp_param.h"
 #include "pp_paramlist.h"
 #include "pp_motorslist.h"
@@ -22,6 +49,7 @@
 #include "pp_stepper_motor_dir_clock_driver.h"
 #include "pp_control_2clock_signals_decorator.h"
 #include "pp_rtx5_control_dir_clock_signals_decorator.h"
+#include "pp_rtx5_select_current_decorator.h"
 
 #include "pp_rtos_uart_queue_decorator.h"
 #include "pp_rtx5_uart_queue.h"
@@ -59,76 +87,15 @@ defOUartQueues* uartCommunicationQueues;
 defOMotorsList motors;
 defODriveAlgorithms* motorsAlgorithms;
 
-
-//vector<int> test[5]={
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0}};
-
-//vector<vector<int>> test={
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0},
-//										vector<int>{0,0,0,0}};
-
-//int tab2[40];
-
-//										
-//void funTest(vector<vector<int>> &tab){
-//	int k=0;
-//	
-//	for(auto &line : tab){
-//		for(auto &column : line){
-//			column+=k;
-//			tab2[k]=column;
-//			k++;
-//		}
-//	}
-//	
-//}									
-										
-										
-										
-//void funTest(vector<int> tab[]){
-//	int k=0;
-//	
-//	for(int i=0; i<5; i++){
-//		for(auto &x : tab[i]){
-//			x+=k;
-//			tab2[k]=x;
-//			k++;
-//		}
-//	}
-	
-//	for(int i=0; i<5; i++){
-//		for(auto x=tab[i].begin(); x!=tab[i].end(); x++){
-//			(*x)+=k;
-//			tab2[k]=*x;
-//			k++;
-//		}
-//	}
-	
-//}
+uPin motorXclockPin{GPIOD,Pin5};
+uPin motorXselectCurrentPin{GPIOD,Pin2};
 
 int main (void) {
 	
-  // System Initialization
 	RCC_Config();
 	GPIO_Config();
 	
-//	funTest(test);
-
-
-//	for(auto &x: tab){
-//		for(auto &line: x){
-//			line+=k;
-//			k++;
-//		}
-//	}
-	EventRecorderInitialize (EventRecordAll, 1);
+//	EventRecorderInitialize (EventRecordAll, 1);
   osKernelInitialize();                 // Initialize CMSIS-RTOS
 	
 	phyCoord=new defOParamList();
@@ -140,26 +107,29 @@ int main (void) {
 	baseCoord->insert(pair<char, defOParamGeneral*>('Y', new defORTX5ParamMutexDecorator(new defOParam("Y", 0, 0, COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
 
 
-//	motors.getMotors()->push_back(new defOControl2ClockSignalsDecorator
-//																(new defOControlCoordinateDecorator
-//																	(new defOStepperMotor2clockDriver
-//																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-//																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
-//																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
-//																				new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7},
-//																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
-//																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}));
-//	
-//																												
+	motors.getMotors()->push_back(new defORTX5SelectCurrentDecorator
+															(new defOControl2ClockSignalsDecorator
+																(new defOControlCoordinateDecorator
+																	(new defOStepperMotor2clockDriver
+																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
+																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+																				new vector<uPin>{uPin{GPIOD,Pin4},uPin{GPIOD,Pin5},
+																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
+																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}, new uPin{GPIOD,Pin7}),
+																				&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_LOW, nullptr)));		
 																												
-	motors.getMotors()->push_back(new defORTX5ControlDirClockSignalsDecorator
-													(new defOControlCoordinateDecorator
-														(new defOStepperMotorDirClockDriver
-															(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-																new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500)), 
-																	phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
-																	new vector<uPin>{uPin{GPIOB,Pin4},uPin{GPIOB,Pin7}}));																									
-													
+																												
+//	motors.getMotors()->push_back(new defORTX5SelectCurrentDecorator
+//												(new defORTX5ControlDirClockSignalsDecorator
+//													(new defOControlCoordinateDecorator
+//														(new defOStepperMotorDirClockDriver
+//															(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
+//																new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500)), 
+//																	phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+//																	new vector<uPin>{uPin{GPIOD,Pin4}, motorXclockPin}, osTimerNew(motorXClearClockSignal, osTimerOnce, nullptr, nullptr)), 
+//																		&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_LOW, nullptr)));																									
+												
 	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, phyCoord, baseCoord);
 
 	
@@ -172,7 +142,6 @@ int main (void) {
 	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  
 	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
-	
 	
   osKernelStart();                      // Start thread execution
   for (;;) {}

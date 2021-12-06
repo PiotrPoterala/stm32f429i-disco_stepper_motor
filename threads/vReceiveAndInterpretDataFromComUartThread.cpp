@@ -7,10 +7,6 @@
 extern defOUartQueues* uartCommunicationQueues;
 
 using namespace std;
-
-/*----------------------------------------------------------------------------
- *      Thread 1 'Thread_Name': Sample thread
- *---------------------------------------------------------------------------*/
  
 void vReceiveAndInterpretDataFromComUartThread (void *argument);                             // thread function
 osThreadId_t tid_vReceiveAndInterpretDataFromComUartThread;                                          // thread id

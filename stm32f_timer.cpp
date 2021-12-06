@@ -19,14 +19,23 @@
 
 #include "stm32f_it.h"
 
-#include "pp_rtos_uart_queue.h"
-
-extern defOUartQueues* uartCommunicationQueues;
+#include "def_pins.h"
 
 
-void USART1_IRQHandler(void){
 
-	uartCommunicationQueues->portListen();
+void motorXClearClockSignal(void *arg){
+	extern uPin motorXclockPin;
+
+	PIN_CLR(motorXclockPin.port, (1<<motorXclockPin.pin));
+
+}
+
+void motorXChangeSelectCurrentSignal(void *arg){
+	extern uPin motorXselectCurrentPin;
+
+	int state=(int)arg;
+	if(!state)PIN_CLR(motorXselectCurrentPin.port, (1<<motorXselectCurrentPin.pin));
+	else PIN_SET(motorXselectCurrentPin.port, (1<<motorXselectCurrentPin.pin));
 
 }
 

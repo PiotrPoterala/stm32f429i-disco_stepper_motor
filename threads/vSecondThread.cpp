@@ -1,9 +1,6 @@
 #include "cmsis_os2.h"                          // CMSIS RTOS header file
  #include "input_signals.h"
  #include "RTX_Config.h"
-/*----------------------------------------------------------------------------
- *      Thread 1 'Thread_Name': Sample thread
- *---------------------------------------------------------------------------*/
  
  #define FREQUENCY_OF_SECOND_THREAD	1
  

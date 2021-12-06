@@ -1,7 +1,35 @@
+
+/**
+ * @author  Piotr Poterała
+ * @email   poterala.piotr@gmail.com
+ * @website http://zappp.pl
+ * @version v1.0
+ * @ide     Keil uVision 5
+ * @license GNU GPL v3
+ *	
+@verbatim
+   ----------------------------------------------------------------------
+    Copyright (C) Piotr Poterała, 2021
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+     
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   ----------------------------------------------------------------------
+@endverbatim
+ */
+
 #ifndef _RTX5_AT_COMMAND_INTERPRETER_H
 	#define _RTX5_AT_COMMAND_INTERPRETER_H
 	
-//	#include "pp_command.h"
 	#include "pp_rtos_uart_queue_decorator.h"
 	#include "pp_rtx5_queue.h"
 	#include "pp_paramlist.h"
@@ -25,24 +53,6 @@ class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
 	public:
 		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
 		virtual void getStringFromReceiveQueue() override;
-	
-	
-//		virtual void putStringToSendQueueAndStartSend(string &data) override {uartQueues->putStringToSendQueueAndStartSend(data);};
-//		virtual int sendSignFromSendQueue() override {return uartQueues->sendSignFromSendQueue();};
-//		virtual void receiveSignAndWriteToReceiveQueue() override {uartQueues->receiveSignAndWriteToReceiveQueue();};
-//		
-//		virtual bool isReceiveString() override {return uartQueues->isReceiveString();};
-//		virtual string getReceiveString() override {return uartQueues->getReceiveString();};
-//		virtual void clearReceiveString() override {uartQueues->clearReceiveString();};
-	
-//			virtual void putStringToSendQueueAndStartSend(string &data){defOUartQueuesDecorator::putStringToSendQueueAndStartSend(data);};
-//			virtual int sendSignFromSendQueue(){return defOUartQueuesDecorator::sendSignFromSendQueue();};
-//			virtual void receiveSignAndWriteToReceiveQueue(){defOUartQueuesDecorator::receiveSignAndWriteToReceiveQueue();};
-//			virtual void getStringFromReceiveQueue();
-//			
-//			virtual bool isReceiveString(){return defOUartQueuesDecorator::isReceiveString();};
-//			virtual string getReceiveString(){return defOUartQueuesDecorator::getReceiveString();};
-//			virtual void clearReceiveString(){defOUartQueuesDecorator::clearReceiveString();};
 
 	};
 

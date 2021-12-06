@@ -4,9 +4,6 @@
 #include "at_tags.h"
 #include "pp_rtx5_drive_algorithms.h"
 #include <string>
-/*----------------------------------------------------------------------------
- *      Thread 1 'Thread_Name': Sample thread
- *---------------------------------------------------------------------------*/
  extern defORTX5TaskQueues<int>* taskCommunicationQueues;
  extern defODriveAlgorithms* motorsAlgorithms;
  
