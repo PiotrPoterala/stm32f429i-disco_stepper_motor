@@ -58,8 +58,7 @@
 #include "pp_rtx5_at_commands_interpreter.h"
 #include "pp_rtx5_param_mutex_decorator.h"
 
-//#define COORD_PRECISION_MM 0.001250	
-#define COORD_PRECISION_MM 0.005
+#define COORD_PRECISION_MM 0.0025
 #define COORD_UNIT 6	
 
 #define MIN_PHY_COORD_MM		0
@@ -113,11 +112,11 @@ int main (void) {
 																	(new defOStepperMotor2clockDriver
 																		(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
 																			new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500), 
-																				FULL_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
+																				MICRO_STEP), phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
 																				new vector<uPin>{uPin{GPIOD,Pin4},uPin{GPIOD,Pin5},
 																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
 																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}, new uPin{GPIOD,Pin7}),
-																				&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_LOW, nullptr)));		
+																				&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_HIGH, nullptr), B_HIGH));		
 																												
 																												
 //	motors.getMotors()->push_back(new defORTX5SelectCurrentDecorator
