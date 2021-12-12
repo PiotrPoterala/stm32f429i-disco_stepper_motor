@@ -34,16 +34,12 @@
 
 	#include "stm32xx.h"
 
-	#define NVIC_PriGroup_0         ((uint32_t)0x7) /*!< 0 bits for pre-emption priority
-																															4 bits for subpriority */
-	#define NVIC_PriGroup_1         ((uint32_t)0x6) /*!< 1 bits for pre-emption priority
-																															3 bits for subpriority */
-	#define NVIC_PriGroup_2         ((uint32_t)0x5) /*!< 2 bits for pre-emption priority
-																															2 bits for subpriority */
-	#define NVIC_PriGroup_3         ((uint32_t)0x4) /*!< 3 bits for pre-emption priority
-																															1 bits for subpriority */
-	#define NVIC_PriGroup_4         ((uint32_t)0x3) /*!< 4 bits for pre-emption priority
-																															0 bits for subpriority */
+	#define NVIC_PriGroup_0         ((uint32_t)0x7) /*!< 0 bits for pre-emption priority	 bits for subpriority */
+	#define NVIC_PriGroup_1         ((uint32_t)0x6) /*!< 1 bits for pre-emption priority	3 bits for subpriority */
+	#define NVIC_PriGroup_2         ((uint32_t)0x5) /*!< 2 bits for pre-emption priority	2 bits for subpriority */
+	#define NVIC_PriGroup_3         ((uint32_t)0x4) /*!< 3 bits for pre-emption priority	1 bits for subpriority */
+	#define NVIC_PriGroup_4         ((uint32_t)0x3) /*!< 4 bits for pre-emption priority 0 bits for subpriority */
+	
 	#define RCC_PLLCFGR_PLLN_V40	0x2800
 	#define RCC_PLLCFGR_PLLR_V2		0x0
 	#define RCC_PLLCFGR_PLLM_V2		0x10

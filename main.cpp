@@ -91,11 +91,19 @@ uPin motorXselectCurrentPin{GPIOD,Pin2};
 
 int main (void) {
 	
+	//1) Configuration clocks and update the system core clock using the respective CMSIS-Core (Cortex-M) 
 	RCC_Config();
+	
+	//2) Initialization and configuration of hardware including peripherals, memory, pins and the interrupt system.
 	GPIO_Config();
+	NVIC_Config();																									
+	USART_Config();
+	
 	
 //	EventRecorderInitialize (EventRecordAll, 1);
-  osKernelInitialize();                 // Initialize CMSIS-RTOS
+	
+	//3) Initialize CMSIS-RTOS
+  osKernelInitialize();                 
 	
 	phyCoord=new defOParamList();
 	phyCoord->insert(pair<char, defOParamGeneral*>('X', new defORTX5ParamMutexDecorator(new defOParam("X", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
@@ -134,15 +142,14 @@ int main (void) {
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
 	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
-	NVIC_Config();
-	USART_Config();
-	
-
+																												
+	//3) Create threads
 	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  
 	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
 	
-  osKernelStart();                      // Start thread execution
+	//4) Start the RTOS scheduler
+  osKernelStart();                      
   for (;;) {}
 }
 

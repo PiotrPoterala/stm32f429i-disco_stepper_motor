@@ -62,7 +62,6 @@ void RCC_Config(void){
 		SystemCoreClockUpdate();
 		
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;	
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;	
@@ -122,7 +121,7 @@ void GPIO_Config(void)
 void USART_Config(void){
 	double divider = 0x00;
 	
-	USART1->CR1&=~USART_CR1_PCE;		//wyłączenie parzystości		
+	USART1->CR1&=~USART_CR1_PCE;		//parity: no		
 	USART1->CR1&=~USART_CR1_M;			//8 data bits
 	USART1->CR2=(USART1->CR2 & USART_BSTOP_CLR) | USART_BSTOP_1;			//1 stop bit
 
