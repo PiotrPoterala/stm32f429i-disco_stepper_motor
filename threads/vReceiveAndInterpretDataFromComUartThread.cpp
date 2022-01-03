@@ -13,13 +13,7 @@ osThreadId_t tid_vReceiveAndInterpretDataFromComUartThread;                     
 
 int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority) {
 	
-	const osThreadAttr_t thread_attr = {
-		.stack_size = 2048, 	
-		.priority = priority	
-	};
-	
-	
-  tid_vReceiveAndInterpretDataFromComUartThread = osThreadNew(vReceiveAndInterpretDataFromComUartThread, NULL, &thread_attr);
+  tid_vReceiveAndInterpretDataFromComUartThread = osThreadNew(vReceiveAndInterpretDataFromComUartThread, NULL, NULL);
 	
 	
 	osThreadSetPriority (tid_vReceiveAndInterpretDataFromComUartThread, priority);

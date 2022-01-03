@@ -1,5 +1,6 @@
 # ignore all files in the Listings/ directory
 Listings/
+doxygen/
 DebugConfig/
 
 # no .a or .o files

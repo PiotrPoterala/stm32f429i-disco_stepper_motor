@@ -143,12 +143,12 @@ int main (void) {
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
 	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
 																												
-	//3) Create threads
+	//4) Create threads
 	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  
 	Init_vReceiveAndInterpretDataFromComUartThread (osPriorityHigh); 
 	
-	//4) Start the RTOS scheduler
+	//5) Start the RTOS scheduler
   osKernelStart();                      
   for (;;) {}
 }

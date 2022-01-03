@@ -46,12 +46,22 @@
 class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
 		
 	private:
-		defORTX5TaskQueues<int>* taskCommunicationQueues;
-		defOParamList *phyCoord;
-		defOParamList *baseCoord;
+		defORTX5TaskQueues<int>* taskCommunicationQueues;/**<pointer to queue used to comunication between two threads*/
+		defOParamList *phyCoord; /**<pointer to list with physical coordinates*/
+		defOParamList *baseCoord;/**<pointer to list with base coordinates*/
 		
 	public:
+		
+		/**
+		A constructor.
+		@param [in] uQueues a pointer to decorated object.
+		@param [in] commQueues a pointer to queue used to comunication between two threads.
+		@param [in] pCoord a pointer to list with physical coordinates.
+		@param [in] bCoord a pointer to list with base coordinates.
+		*/
 		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
+
+
 		virtual void getStringFromReceiveQueue() override;
 
 	};

@@ -10,7 +10,12 @@ void vSecondThread (void *argument);                   // thread function
  
 int Init_vSecondThread  (osPriority_t priority) {
  
-  tid_vSecondThread = osThreadNew(vSecondThread, NULL, NULL);
+	const osThreadAttr_t thread_attr = {
+		.stack_size = 256, 	
+		.priority = priority	
+	};
+	
+  tid_vSecondThread = osThreadNew(vSecondThread, NULL, &thread_attr);
 	osThreadSetPriority (tid_vSecondThread, priority);
   if (tid_vSecondThread == NULL) {
     return(-1);
