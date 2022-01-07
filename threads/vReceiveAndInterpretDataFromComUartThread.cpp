@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "pp_rtos_uart_queue.h"
+#include "pp_iodevice.h"
 
-extern defOUartQueues* uartCommunicationQueues;
+extern PIOdevice* commSerialPort;
 
 using namespace std;
  
@@ -28,7 +28,7 @@ string receiveString;
 	
   while (1) {
 		
-			uartCommunicationQueues->getStringFromReceiveQueue();    
+			commSerialPort->receiveQueueListen();    
 		
   }
 }

@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library;..\..\..\PP_library\PP_Command_Library</IncludePath>
+              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library;..\..\..\PP_library\PP_Command_Library;..\..\..\PP_library\PP_TextStream_Library;..\..\..\PP_library\PP_IOdevice_library</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -462,6 +462,11 @@
               <FileType>8</FileType>
               <FilePath>.\stm32f_timer.cpp</FilePath>
             </File>
+            <File>
+              <FileName>pp_text_stream.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_TextStream_Library\pp_text_stream.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -545,7 +550,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>uart</GroupName>
+          <GroupName>IOdevice</GroupName>
           <Files>
             <File>
               <FileName>pp_rtx5_at_commands_interpreter.cpp</FileName>
@@ -553,19 +558,19 @@
               <FilePath>.\pp_rtx5_at_commands_interpreter.cpp</FilePath>
             </File>
             <File>
-              <FileName>pp_rtx5_uart_queue.cpp</FileName>
+              <FileName>pp_iodevice_decorator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_IOdevice_library\pp_iodevice_decorator.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_iodevice.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_IOdevice_library\pp_iodevice.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_serial_port.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_uart_queue.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>pp_rtos_uart_queue_decorator.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_uart_queue_decorator.h</FilePath>
-            </File>
-            <File>
-              <FileName>pp_rtos_uart_queue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtos_uart_queue.h</FilePath>
+              <FilePath>..\..\..\PP_library\PP_Rtos_Library\pp_rtx5_serial_port.cpp</FilePath>
             </File>
           </Files>
         </Group>

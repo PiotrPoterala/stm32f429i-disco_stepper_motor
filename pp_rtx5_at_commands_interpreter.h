@@ -30,7 +30,7 @@
 #ifndef _RTX5_AT_COMMAND_INTERPRETER_H
 	#define _RTX5_AT_COMMAND_INTERPRETER_H
 	
-	#include "pp_rtos_uart_queue_decorator.h"
+	#include "pp_iodevice_decorator.h"
 	#include "pp_rtx5_queue.h"
 	#include "pp_paramlist.h"
 	
@@ -43,7 +43,7 @@
 	
 	using namespace std;
 
-class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
+class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		
 	private:
 		defORTX5TaskQueues<int>* taskCommunicationQueues;/**<pointer to queue used to comunication between two threads*/
@@ -59,10 +59,10 @@ class defORTX5atCommandInterpreter: public defOUartQueuesDecorator{
 		@param [in] pCoord a pointer to list with physical coordinates.
 		@param [in] bCoord a pointer to list with base coordinates.
 		*/
-		defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
+		defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
 
 
-		virtual void getStringFromReceiveQueue() override;
+		virtual void receiveQueueListen() override;
 
 	};
 

@@ -21,19 +21,19 @@
 #include "pstring.h"
 #include "at_tags.h"
 
-defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(defOUartQueues* uQueues, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord):
-																defOUartQueuesDecorator(uQueues), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord){
+defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord):
+																PIOdeviceDecorator(IOdevice), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord){
 
 };
 
 
-void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
+void defORTX5atCommandInterpreter::receiveQueueListen(){
 	
 	
-	defOUartQueuesDecorator::getStringFromReceiveQueue();
-	if(defOUartQueuesDecorator::isReceiveString()){
+	PIOdeviceDecorator::receiveQueueListen();
+	if(PIOdeviceDecorator::canReadLine()){
 	
-		PString data(defOUartQueuesDecorator::getReceiveString());
+		PString data(PIOdeviceDecorator::readLine());
 		string answer="FAIL\r\n";
 		int index=0;
 		
@@ -103,9 +103,7 @@ void defORTX5atCommandInterpreter::getStringFromReceiveQueue(){
 					answer="OK\r\n";
 				}
 			}
-		 
-			defOUartQueuesDecorator::putStringToSendQueueAndStartSend(answer);
-			defOUartQueuesDecorator::clearReceiveString();
+			PIOdeviceDecorator::write(answer);
 		}
                
 }

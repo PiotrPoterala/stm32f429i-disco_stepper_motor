@@ -47,11 +47,6 @@
 	#define RCC_PLLCFGR_PLLM_DIV4			4
 	#define RCC_PLLCFGR_PLLN_MUL180		(180<<6)
 	#define RCC_PLLCFGR_PLLP_DIV2			0x0
-	
-
-	#define  USART_BSTOP_CLR   0xCFFF           
-	#define  USART_BSTOP_1     0x0000          
-	#define  USART_BSTOP_2     0x2000  
 
 
 	#define GPIO_AFR_AF0				0x0
@@ -85,8 +80,5 @@
 	void RCC_Config(void);
 	void NVIC_Config(void);
 	void GPIO_Config(void);
-	void USART_Config(void);
-
-
 
 #endif

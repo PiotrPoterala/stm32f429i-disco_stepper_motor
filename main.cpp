@@ -51,8 +51,9 @@
 #include "pp_rtx5_control_dir_clock_signals_decorator.h"
 #include "pp_rtx5_select_current_decorator.h"
 
-#include "pp_rtos_uart_queue_decorator.h"
-#include "pp_rtx5_uart_queue.h"
+#include "pp_iodevice.h"
+#include "pp_iodevice_decorator.h"
+#include "pp_rtx5_serial_port.h"
 #include "pp_rtx5_drive_algorithms.h"
 #include "pp_rtx5_queue.h"
 #include "pp_rtx5_at_commands_interpreter.h"
@@ -81,7 +82,7 @@ defOParamList *phyCoord;
 defOParamList *baseCoord;
 
 defORTX5TaskQueues<int>* taskCommunicationQueues;
-defOUartQueues* uartCommunicationQueues;
+PIOdevice* commSerialPort;
 
 defOMotorsList motors;
 defODriveAlgorithms* motorsAlgorithms;
@@ -97,7 +98,6 @@ int main (void) {
 	//2) Initialization and configuration of hardware including peripherals, memory, pins and the interrupt system.
 	GPIO_Config();
 	NVIC_Config();																									
-	USART_Config();
 	
 	
 //	EventRecorderInitialize (EventRecordAll, 1);
@@ -141,8 +141,8 @@ int main (void) {
 
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
-	uartCommunicationQueues=new defORTX5atCommandInterpreter(new defOUartRTX5queues(USART1), taskCommunicationQueues, phyCoord, baseCoord);
-																												
+	commSerialPort=new defORTX5atCommandInterpreter(new PSerialPortRTX5(USART1), taskCommunicationQueues, phyCoord, baseCoord);
+	commSerialPort->open(PIOdevice::ReadWrite);																									
 	//4) Create threads
 	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  

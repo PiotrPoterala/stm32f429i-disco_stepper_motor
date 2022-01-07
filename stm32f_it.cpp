@@ -19,14 +19,13 @@
 
 #include "stm32f_it.h"
 
-#include "pp_rtos_uart_queue.h"
+#include "pp_iodevice.h"
 
-extern defOUartQueues* uartCommunicationQueues;
-
+extern PIOdevice* commSerialPort;
 
 void USART1_IRQHandler(void){
 
-	uartCommunicationQueues->portListen();
+	commSerialPort->portListen();
 
 }
 

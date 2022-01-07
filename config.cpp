@@ -118,25 +118,4 @@ void GPIO_Config(void)
 }
 
 
-void USART_Config(void){
-	double divider = 0x00;
-	
-	USART1->CR1&=~USART_CR1_PCE;		//parity: no		
-	USART1->CR1&=~USART_CR1_M;			//8 data bits
-	USART1->CR2=(USART1->CR2 & USART_BSTOP_CLR) | USART_BSTOP_1;			//1 stop bit
-
-	USART1->CR1&=~USART_CR1_OVER8; //oversampling=16 
-
-  divider = ((double)90000000 / (16*9600));		//PLCK1/(16*BAUD) for oversampling=16    
-  USART1->BRR |= (uint16_t)divider << 4;
-  USART1->BRR |= (uint16_t)((divider-(uint16_t)divider)*16);
-
-	USART1->CR1|=USART_CR1_TE;
-	USART1->CR1&=~USART_CR1_TXEIE;
-	USART1->CR1|=USART_CR1_RE;
-	USART1->CR1|=USART_CR1_RXNEIE;
-	USART1->CR1|=USART_CR1_UE;	
-
-}
-
 

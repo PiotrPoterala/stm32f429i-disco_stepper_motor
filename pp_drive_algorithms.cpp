@@ -18,9 +18,9 @@
  */
 
 #include "pp_drive_algorithms.h"
-#include "pp_rtx5_uart_queue.h"
+//#include "pp_iodevice.h"
 
- extern defOUartQueues* uartCommunicationQueues;
+// extern PIOdevice* commSerialPort;
  
 defODriveAlgorithms::defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord):motors(mot), phyCoord(pCoord), baseCoord(bCoord){
 	
