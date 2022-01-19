@@ -50,6 +50,7 @@ class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		defOParamList *phyCoord; /**<pointer to list with physical coordinates*/
 		defOParamList *baseCoord;/**<pointer to list with base coordinates*/
 		
+		bool response;
 	public:
 		
 		/**
@@ -59,10 +60,10 @@ class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		@param [in] pCoord a pointer to list with physical coordinates.
 		@param [in] bCoord a pointer to list with base coordinates.
 		*/
-		defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord);
+		defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord, bool answer=true);
 
 
-		virtual void receiveQueueListen() override;
+		virtual string readLine() override;
 
 	};
 

@@ -21,22 +21,21 @@
 #include "pstring.h"
 #include "at_tags.h"
 
-defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord):
-																PIOdeviceDecorator(IOdevice), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord){
+defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord, bool answer):
+																PIOdeviceDecorator(IOdevice), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord), response(answer){
 
 };
 
 
-void defORTX5atCommandInterpreter::receiveQueueListen(){
+string defORTX5atCommandInterpreter::readLine(){
 	
+	string receiveString=PIOdeviceDecorator::readLine();
 	
-	PIOdeviceDecorator::receiveQueueListen();
-	if(PIOdeviceDecorator::canReadLine()){
+	if(receiveString.empty()==false){
 	
-		PString data(PIOdeviceDecorator::readLine());
+		PString data(receiveString);
 		string answer="FAIL\r\n";
 		int index=0;
-		
 		 if(data.find("AT+TRVV")!=string::npos){
 				map<char, double> values;
 				vector<int> valuesToSend;
@@ -103,7 +102,9 @@ void defORTX5atCommandInterpreter::receiveQueueListen(){
 					answer="OK\r\n";
 				}
 			}
-			PIOdeviceDecorator::write(answer);
+			
+			if(response)PIOdeviceDecorator::write(answer);
 		}
-               
+    
+		return receiveString;
 }

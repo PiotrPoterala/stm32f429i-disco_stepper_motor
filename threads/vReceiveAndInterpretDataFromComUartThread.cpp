@@ -28,7 +28,8 @@ string receiveString;
 	
   while (1) {
 		
-			commSerialPort->receiveQueueListen();    
+		commSerialPort->waitForReadyRead(osWaitForever);   
+		commSerialPort->readLine();    
 		
   }
 }
