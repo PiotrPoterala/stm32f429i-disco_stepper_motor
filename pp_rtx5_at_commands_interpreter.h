@@ -50,7 +50,7 @@ class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		defOParamList *phyCoord; /**<pointer to list with physical coordinates*/
 		defOParamList *baseCoord;/**<pointer to list with base coordinates*/
 		
-		bool response;
+		bool response;	/**<flag inform about response for command*/
 	public:
 		
 		/**
@@ -59,6 +59,7 @@ class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		@param [in] commQueues a pointer to queue used to comunication between two threads.
 		@param [in] pCoord a pointer to list with physical coordinates.
 		@param [in] bCoord a pointer to list with base coordinates.
+		@param [in] answer a flag inform about response for command.
 		*/
 		defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord, bool answer=true);
 

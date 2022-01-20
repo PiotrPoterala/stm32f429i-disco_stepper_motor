@@ -58,6 +58,7 @@
 #include "pp_rtx5_queue.h"
 #include "pp_rtx5_at_commands_interpreter.h"
 #include "pp_rtx5_param_mutex_decorator.h"
+#include "pp_text_stream.h"
 
 #define COORD_PRECISION_MM 0.0025
 #define COORD_UNIT 6	
@@ -142,7 +143,8 @@ int main (void) {
 	
 	taskCommunicationQueues= new defORTX5TaskQueues<int>();
 	commSerialPort=new defORTX5atCommandInterpreter(new PSerialPortRTX5(USART1), taskCommunicationQueues, phyCoord, baseCoord);
-	commSerialPort->open(PIOdevice::ReadWrite);																									
+	commSerialPort->open(PIOdevice::ReadWrite);		
+																										
 	//4) Create threads
 	Init_vSecondThread(osPriorityBelowNormal);  
 	Init_vRealizationFunctionThread(osPriorityNormal);  
