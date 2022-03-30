@@ -87,7 +87,7 @@ string defORTX5atCommandInterpreter::readLine(){
 					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
-					baseCoord->setParamsBasedString(&data);
+					baseCoord->setParamsBasedString(data);
 					answer="OK\r\n";
 				}
 			}else if(data.find("AT+PHYC")!=string::npos){
@@ -98,7 +98,7 @@ string defORTX5atCommandInterpreter::readLine(){
 					answer+="\r\n";
 				}else{		
 					data.erase(0, index+8);
-					phyCoord->setParamsBasedString(&data);
+					phyCoord->setParamsBasedString(data);
 					answer="OK\r\n";
 				}
 			}

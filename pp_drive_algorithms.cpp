@@ -46,7 +46,7 @@ void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
 			auto values_it=values.find((*it).first);
 			if(values_it!=values.end()){
-				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second);
+				phyEndPoint.axes.find((*it).first)->second=phyCoord->getParam((*it).first).front()->correctData(phyEndPoint.axes.find((*it).first)->second+values_it->second);
 			}
 			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
 			counter.insert(pair<char, int>((*it).first, 0));
@@ -72,7 +72,7 @@ void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> &values)
 		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
 			auto values_it=values.find((*it).first);
 			if(values_it!=values.end()){
-				phyEndPoint.axes.find((*it).first)->second=phyCoord->checkRange((*it).first, phyEndPoint.axes.find((*it).first)->second+values_it->second-baseCoord->getParamValue((*it).first));
+				phyEndPoint.axes.find((*it).first)->second=phyCoord->getParam((*it).first).front()->correctData(phyEndPoint.axes.find((*it).first)->second+values_it->second-baseCoord->getParamValue((*it).first));
 			}
 			phyVector.axes.insert(pair<char, int>((*it).first, phyEndPoint.axes.find((*it).first)->second-phyStartPoint.axes.find((*it).first)->second));
 			counter.insert(pair<char, int>((*it).first, 0));

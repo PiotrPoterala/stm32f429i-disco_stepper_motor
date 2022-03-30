@@ -448,11 +448,6 @@
               <FilePath>.\pp_param_general.h</FilePath>
             </File>
             <File>
-              <FileName>pp_rtx5_param_mutex_decorator.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\pp_rtx5_param_mutex_decorator.h</FilePath>
-            </File>
-            <File>
               <FileName>pp_point.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\pp_point.h</FilePath>
@@ -466,6 +461,11 @@
               <FileName>pp_text_stream.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_TextStream_Library\pp_text_stream.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_param_mutex_decorator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_rtx5_param_mutex_decorator.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -575,6 +575,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>values</GroupName>
+          <Files>
+            <File>
+              <FileName>strings_pl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\strings\strings_pl.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
@@ -610,6 +620,12 @@
         </targetInfos>
       </component>
       <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" Cversion="1.4.0" condition="Cortex-M Device">
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="ITM" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with ITM">
         <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
