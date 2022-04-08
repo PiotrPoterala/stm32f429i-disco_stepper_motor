@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library;..\..\..\PP_library\PP_Command_Library;..\..\..\PP_library\PP_TextStream_Library;..\..\..\PP_library\PP_IOdevice_library</IncludePath>
+              <IncludePath>.;.\strings;.\threads;..\..\..\PP_library\PP_Parameters_Library;..\..\..\PP_library\PP_StepperMotor_Library;..\..\..\PP_library;..\..\..\PP_library\PP_String_Library;..\..\..\PP_library\PP_Rtos_Library;..\..\..\PP_library\PP_Command_Library;..\..\..\PP_library\PP_TextStream_Library;..\..\..\PP_library\PP_IOdevice_library;..\..\..\PP_library\PP_Point</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -443,21 +443,6 @@
               <FilePath>.\at_tags.h</FilePath>
             </File>
             <File>
-              <FileName>pp_param_general.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\pp_param_general.h</FilePath>
-            </File>
-            <File>
-              <FileName>pp_point.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\pp_point.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\stm32f_timer.cpp</FilePath>
-            </File>
-            <File>
               <FileName>pp_text_stream.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\PP_library\PP_TextStream_Library\pp_text_stream.cpp</FilePath>
@@ -466,6 +451,21 @@
               <FileName>pp_rtx5_param_mutex_decorator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_rtx5_param_mutex_decorator.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_point.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_Point\pp_point.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_param_general.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\PP_library\PP_Parameters_Library\pp_param_general.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f_timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\stm32f_timer.cpp</FilePath>
             </File>
           </Files>
         </Group>

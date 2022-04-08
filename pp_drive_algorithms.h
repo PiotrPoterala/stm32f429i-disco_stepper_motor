@@ -36,37 +36,32 @@
 #include "pp_point.h"
 
 
-	#define DRIVE_IN_PROGRESS					(-1)	
-	#define DRIVE_COMPLETED				0	
-	#define DRIVE_ABORTED					1
-	#define DRIVE_PAUSED					2
-	#define DRIVE_INTERRUPTED			3
-
-	
+enum class DriveStatus{DRIVE_IN_PROGRESS=-1, DRIVE_COMPLETED=0, DRIVE_ABORTED, DRIVE_PAUSED, DRIVE_INTERRUPTED};
+//	
 	class defODriveAlgorithms{
 		
 		protected:
-			defOMotorsList *motors;
-			defOParamList *phyCoord;
-			defOParamList *baseCoord;
-			PPpoint<char, int> phyStartPoint;
-			PPpoint<char, int> phyEndPoint;
-			PPpoint<char, int> phyIndirectPoint;
-			PPpoint<char, int> phyVector;
+			defOMotorsListShdPtr motors;
+			defOParamListShdPtr phyCoord;
+			defOParamListShdPtr baseCoord;
+			PPpoint<int> phyStartPoint;
+			PPpoint<int> phyEndPoint;
+			PPpoint<int> phyIndirectPoint;
+			PPpoint<int> phyVector;
 		
 			map<char, int> counter;
 
 		
 		public:
-			int driveStatus;
+			DriveStatus status;
 		
-			defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord);
+			defODriveAlgorithms(defOMotorsListShdPtr mot, defOParamListShdPtr pCoord, defOParamListShdPtr bCoord);
 		
 		
 			void setParToDriveForValue(map<char, int> &values);
 			void setParToDriveToBaseCoordinates(map<char, int> &values);		
 		
-			virtual int drive(void)=0;
+			virtual DriveStatus drive(void)=0;
 		
 		
 			static unsigned int getFrequencykResponsibleForDriveSpeed(unsigned int nrOfStepsFromStart, unsigned int nrOfStepsToEnd, int accelerationMMperSEC2, int velocityUMperSEC, unsigned int stepPM);
@@ -80,6 +75,6 @@
 
 	};
 
-
+using defODriveAlgorithmsShdPtr = shared_ptr<defODriveAlgorithms>;
 
 #endif

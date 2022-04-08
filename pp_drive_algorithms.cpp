@@ -18,11 +18,9 @@
  */
 
 #include "pp_drive_algorithms.h"
-//#include "pp_iodevice.h"
 
-// extern PIOdevice* commSerialPort;
  
-defODriveAlgorithms::defODriveAlgorithms(defOMotorsList *mot, defOParamList *pCoord, defOParamList *bCoord):motors(mot), phyCoord(pCoord), baseCoord(bCoord){
+defODriveAlgorithms::defODriveAlgorithms(defOMotorsListShdPtr mot, defOParamListShdPtr pCoord, defOParamListShdPtr bCoord):motors(mot), phyCoord(pCoord), baseCoord(bCoord){
 	
 	
 }
@@ -38,12 +36,12 @@ void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 	phyVector.axes.clear();
 	counter.clear();
 	
-	phyStartPoint.axes=phyCoord->getParamsValues();
+	phyStartPoint=phyCoord->getParamsValues();
 	phyEndPoint=phyStartPoint;
 	
 	
 	for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
-		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
+		if(motors->find((*it).first)!=motors->end()){
 			auto values_it=values.find((*it).first);
 			if(values_it!=values.end()){
 				phyEndPoint.axes.find((*it).first)->second=phyCoord->getParam((*it).first).front()->correctData(phyEndPoint.axes.find((*it).first)->second+values_it->second);
@@ -53,6 +51,11 @@ void defODriveAlgorithms::setParToDriveForValue(map<char, int> &values){
 		}
 	}
 	
+//	for(auto it=phyVector.axes.begin(); it != phyVector.axes.end(); it++){
+//		printf("%s=%i, ", &((*it).first), (*it).second);
+//		
+//	}
+//	printf("\r\n");
 	drive();
 	
 														
@@ -69,7 +72,7 @@ void defODriveAlgorithms::setParToDriveToBaseCoordinates(map<char, int> &values)
 	phyEndPoint=phyStartPoint;
 	
 	for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
-		if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
+		if(motors->find((*it).first)!=motors->end()){
 			auto values_it=values.find((*it).first);
 			if(values_it!=values.end()){
 				phyEndPoint.axes.find((*it).first)->second=phyCoord->getParam((*it).first).front()->correctData(phyEndPoint.axes.find((*it).first)->second+values_it->second-baseCoord->getParamValue((*it).first));

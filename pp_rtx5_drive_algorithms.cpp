@@ -21,38 +21,35 @@
 //#include "pp_iodevice.h"
 #include "RTX_Config.h"
 
-int defORTX5driveAlgorithms::drive(){
-	int tick;
-	string str;
-	
-	tick = osKernelGetTickCount(); 
+DriveStatus defORTX5driveAlgorithms::drive(){
+
+	int tick = osKernelGetTickCount(); 
 
 
-	driveStatus=DRIVE_IN_PROGRESS;
-	phyIndirectPoint.axes.clear();
-	phyIndirectPoint=phyEndPoint;
+	status=DriveStatus::DRIVE_IN_PROGRESS;
+//	phyIndirectPoint.axes.clear();
+//	phyIndirectPoint=phyEndPoint;
 
-	motors->clearCounters();
 
-	while(driveStatus!=DRIVE_COMPLETED && driveStatus!=DRIVE_ABORTED){		
+	while(status!=DriveStatus::DRIVE_COMPLETED && status!=DriveStatus::DRIVE_ABORTED){		
 
 		for(auto it=phyStartPoint.axes.begin(); it != phyStartPoint.axes.end(); it++){
 			
-			if(motors->getIterator((*it).first)!=motors->getMotors()->end()){
+			if(motors->find((*it).first)!=motors->end()){
 				auto cnt_it=counter.find((*it).first);
 				if(cnt_it!=counter.end()){
 
 					if(cnt_it->second>=getClockDividerResponsibleForDriveSpeed(abs(phyCoord->getParamValue((*it).first)-(*it).second)/phyCoord->getParamPrecision((*it).first), 
 																																		abs(phyEndPoint.axes.find((*it).first)->second-phyCoord->getParamValue((*it).first))/phyCoord->getParamPrecision((*it).first), 
-																																		motors->getMotor((*it).first)->getAccelerationMMperSEC2Value(), 
-																																		motors->getMotor((*it).first)->getVelocityUMperSECValue(), 
+																																		motors->find((*it).first)->second->getAccelerationMMperSEC2Value(), 
+																																		motors->find((*it).first)->second->getVelocityUMperSECValue(), 
 																																		BASE_FREQUENCY_OF_TIMdrive, phyCoord->getParamPrecision((*it).first))){
 																												
 																																			
 						if(phyVector.axes.find((*it).first)->second>0){
-							motors->getMotor((*it).first)->rotateForward();
+							motors->find((*it).first)->second->rotateForward();
 						}else if(phyVector.axes.find((*it).first)->second<0){
-							motors->getMotor((*it).first)->rotateBackwards();
+							motors->find((*it).first)->second->rotateBackwards();
 						}
 						(*cnt_it).second=1;
 					}else{
@@ -63,13 +60,13 @@ int defORTX5driveAlgorithms::drive(){
 			
 		}
 
-		if(phyEndPoint==phyCoord->getParamsValues())driveStatus=DRIVE_COMPLETED;
+		if(phyEndPoint==phyCoord->getParamsValues())status=DriveStatus::DRIVE_COMPLETED;
 		
 		tick += OS_TICK_FREQ /BASE_FREQUENCY_OF_TIMdrive;    
 		osDelayUntil(tick);
 	}
 	
-	return driveStatus;
+	return status;
 
 }
 

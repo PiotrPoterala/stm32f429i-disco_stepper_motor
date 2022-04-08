@@ -70,20 +70,21 @@
 #define MAX_PHY_COORD_MM		999
 #define MAX_BASE_COORD_MM		999
 
+
 extern int Init_vSecondThread (osPriority_t priority);
 extern int Init_vRealizationFunctionThread  (osPriority_t priority);
 extern int Init_vReceiveAndInterpretDataFromComUartThread (osPriority_t priority); 
 
 
-defOParamList phyCoord;
-defOParamList baseCoord;
-defOParamList workParams;
+defOParamListShdPtr phyCoord;
+defOParamListShdPtr baseCoord;
+defOParamListShdPtr workParams;
 
-defORTX5TaskQueues<int>* taskCommunicationQueues;
-PIOdevice* commSerialPort;
+defOTaskQueuesIntShrPtr taskCommunicationQueues;
+PIOdeviceShrPtr commSerialPort;
 
-defOMotorsList motors;
-defODriveAlgorithms* motorsAlgorithms;
+defOMotorsListShdPtr motors;
+defODriveAlgorithmsShdPtr motorsAlgorithms;
 
 uPin motorXclockPin{GPIOD,Pin5};
 uPin motorXselectCurrentPin{GPIOD,Pin2};
@@ -106,46 +107,38 @@ int main (void) {
 	//3) Initialize CMSIS-RTOS
   osKernelInitialize();                 
 	
-	phyCoord=defOParamList();
-	phyCoord.insert(PParamPair('X', make_shared<defORTX5ParamMutexDecorator>(make_shared<defOParam>("X", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
-	phyCoord.insert(PParamPair('Y', make_shared<defORTX5ParamMutexDecorator>(make_shared<defOParam>("Y", 100*pow(10.0, COORD_UNIT), 100*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT, MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT)))));
+	phyCoord=make_shared<defOParamList>();
+	phyCoord->insert(PParamPair('X', make_shared<defORTX5ParamMutexDecorator>(make_shared<defOParam>("X", 100*pow(10.0, COORD_UNIT), MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT))));
+	phyCoord->insert(PParamPair('Y', make_shared<defORTX5ParamMutexDecorator>(make_shared<defOParam>("Y", 100*pow(10.0, COORD_UNIT), MIN_PHY_COORD_MM*pow(10.0, COORD_UNIT), MAX_PHY_COORD_MM*pow(10.0, COORD_UNIT), COORD_PRECISION_MM*pow(10.0, COORD_UNIT), COORD_UNIT))));
 
-	baseCoord=phyCoord;
-	baseCoord.setParamsRealLowerLimit(-999);
-	baseCoord.setParamsValueByZero();
-	baseCoord.setParamsDefaultValue(0);
+	baseCoord=phyCoord->clone();
+	baseCoord->setParamsRealLowerLimit(-999);
+	baseCoord->setParamsValue(0);
+	baseCoord->setParamsDefaultValue(0);
 
-	workParams=defOParamList();
-	workParams.insert(PParamPair('f', make_shared<defOParam>(strings->find("feed")->second, 5, 5, 1, 0, 1, 2500)));
-	workParams.insert(PParamPair('a', make_shared<defOParam>(strings->find("acc")->second, 2, 2, 1, 0, 1, 30)));
+	workParams=make_shared<defOParamList>();
+	workParams->insert(PParamPair('f', make_shared<defOParam>(strings->find("feed")->second, 2500, 1, 2500)));
+	workParams->insert(PParamPair('a', make_shared<defOParam>(strings->find("acc")->second, 2, 1, 30)));
 
-	motors.getMotors()->push_back(new defORTX5SelectCurrentDecorator
-															(new defOControl2ClockSignalsDecorator
-																(new defOControlCoordinateDecorator
-																	(new defOStepperMotor2clockDriver
-																		(workParams.getParam('a').front(), workParams.getParam('f').front(), MICRO_STEP), 
-																			phyCoord.getParamPair('X'), baseCoord.getParam('X').front()), 
+	motors=make_shared<PMotorsList>();
+	motors->insert(PMotorsPair('X', make_shared<defORTX5SelectCurrentDecorator>
+															(make_shared<defOControl2ClockSignalsDecorator>
+																(make_shared<defOControlCoordinateDecorator>
+																	(make_shared<defOStepperMotor2clockDriver>
+																		(workParams->getParam('a').front(), workParams->getParam('f').front(), MICRO_STEP), 
+																			phyCoord->getParamPair('X'), baseCoord->getParam('X').front()), 
 																				vector<uPin>{uPin{GPIOD,Pin4},uPin{GPIOD,Pin5},
 																												uPin{GPIOE,Pin2},uPin{GPIOE,Pin3},uPin{GPIOE,Pin4},uPin{GPIOE,Pin5},
 																												uPin{GPIOE,Pin6},uPin{GPIOC,Pin11},uPin{GPIOC,Pin12},uPin{GPIOC,Pin13}}, new uPin{GPIOD,Pin7}),
-																				&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_HIGH, nullptr), B_HIGH));		
+																				&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_HIGH, nullptr), B_HIGH)));		
 																												
-																												
-//	motors.getMotors()->push_back(new defORTX5SelectCurrentDecorator
-//												(new defORTX5ControlDirClockSignalsDecorator
-//													(new defOControlCoordinateDecorator
-//														(new defOStepperMotorDirClockDriver
-//															(new defOParam("acceleration", 2, 2, ACCELERATION_PRECISION_uM_PER_SEC2, ACCELERATION_UNIT, 1, 30),
-//																new defOParam("velocity", 2500, 2500, VELOCITY_PRECISION_uM_PER_SEC, VELOCITY_UNIT, 1, 2500)), 
-//																	phyCoord->getParamPair('X'), baseCoord->getParam('X')), 
-//																	new vector<uPin>{uPin{GPIOD,Pin4}, motorXclockPin}, osTimerNew(motorXClearClockSignal, osTimerOnce, nullptr, nullptr)), 
-//																		&motorXselectCurrentPin, osTimerNew(motorXChangeSelectCurrentSignal, osTimerOnce, (void*)B_LOW, nullptr)));																									
+																																																			
 												
-	motorsAlgorithms= new defORTX5driveAlgorithms(&motors, &phyCoord, &baseCoord);
+	motorsAlgorithms=make_shared<defORTX5driveAlgorithms>(motors, phyCoord, baseCoord);
 
 	
-	taskCommunicationQueues= new defORTX5TaskQueues<int>();
-	commSerialPort=new defORTX5atCommandInterpreter(new PSerialPortRTX5(USART1), taskCommunicationQueues, &phyCoord, &baseCoord);
+	taskCommunicationQueues= make_shared<defORTX5TaskQueues<int>>();
+	commSerialPort=make_shared<defORTX5atCommandInterpreter>(make_shared<PSerialPortRTX5>(USART1), taskCommunicationQueues, phyCoord, baseCoord);
 	commSerialPort->open(PIOdevice::ReadWrite);		
 																										
 	//4) Create threads

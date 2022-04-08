@@ -21,7 +21,7 @@
 #include "pstring.h"
 #include "at_tags.h"
 
-defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord, bool answer):
+defORTX5atCommandInterpreter::defORTX5atCommandInterpreter(PIOdeviceShrPtr IOdevice, defOTaskQueuesIntShrPtr commQueues, defOParamListShdPtr pCoord, defOParamListShdPtr bCoord, bool answer):
 																PIOdeviceDecorator(IOdevice), taskCommunicationQueues(commQueues), phyCoord(pCoord), baseCoord(bCoord), response(answer){
 
 };

@@ -46,9 +46,9 @@
 class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		
 	private:
-		defORTX5TaskQueues<int>* taskCommunicationQueues;/**<pointer to queue used to comunication between two threads*/
-		defOParamList *phyCoord; /**<pointer to list with physical coordinates*/
-		defOParamList *baseCoord;/**<pointer to list with base coordinates*/
+		defOTaskQueuesIntShrPtr taskCommunicationQueues;/**<pointer to queue used to comunication between two threads*/
+		defOParamListShdPtr phyCoord; /**<pointer to list with physical coordinates*/
+		defOParamListShdPtr baseCoord;/**<pointer to list with base coordinates*/
 		
 		bool response;	/**<flag inform about response for command*/
 	public:
@@ -61,7 +61,7 @@ class defORTX5atCommandInterpreter: public PIOdeviceDecorator{
 		@param [in] bCoord a pointer to list with base coordinates.
 		@param [in] answer a flag inform about response for command.
 		*/
-		defORTX5atCommandInterpreter(PIOdevice* IOdevice, defORTX5TaskQueues<int>* commQueues, defOParamList *pCoord, defOParamList *bCoord, bool answer=true);
+		defORTX5atCommandInterpreter(PIOdeviceShrPtr IOdevice, defOTaskQueuesIntShrPtr commQueues, defOParamListShdPtr pCoord, defOParamListShdPtr bCoord, bool answer=true);
 
 
 		virtual string readLine() override;

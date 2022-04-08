@@ -39,10 +39,10 @@
 	class defORTX5driveAlgorithms : public defODriveAlgorithms{
 
 		public:
-			defORTX5driveAlgorithms(defOMotorsList *motors, defOParamList *pCoord, defOParamList *bCoord):defODriveAlgorithms(motors, pCoord, bCoord){};
+			defORTX5driveAlgorithms(defOMotorsListShdPtr motors, defOParamListShdPtr pCoord, defOParamListShdPtr bCoord):defODriveAlgorithms(motors, pCoord, bCoord){};
 		
 		
-			virtual int drive(void);
+			virtual DriveStatus drive(void);
 		
 		
 
