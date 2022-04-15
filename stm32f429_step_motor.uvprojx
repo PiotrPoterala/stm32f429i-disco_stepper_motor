@@ -428,16 +428,6 @@
               <FilePath>.\stm32f_it.cpp</FilePath>
             </File>
             <File>
-              <FileName>pp_drive_algorithms.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\pp_drive_algorithms.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>pp_rtx5_drive_algorithms.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\pp_rtx5_drive_algorithms.cpp</FilePath>
-            </File>
-            <File>
               <FileName>at_tags.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\at_tags.h</FilePath>
@@ -546,6 +536,16 @@
               <FileName>pp_rtx5_select_current_decorator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_rtx5_select_current_decorator.h</FilePath>
+            </File>
+            <File>
+              <FileName>pp_drive_algorithms.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_drive_algorithms.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pp_rtx5_drive_algorithms.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\PP_library\PP_StepperMotor_Library\pp_rtx5_drive_algorithms.cpp</FilePath>
             </File>
           </Files>
         </Group>
